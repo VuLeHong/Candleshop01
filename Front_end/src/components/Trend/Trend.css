@@ -1,0 +1,8 @@
+.trend-left-and-right {
+    display: flex;
+    flex-direction: row;
+}
+.trend-left img {
+    width: 500px;
+    height: 450px;
+}
