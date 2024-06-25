@@ -1,0 +1,32 @@
+.collection {
+    padding-left: 5vw;
+    padding-right: 5vw;
+}
+
+.collection-title {
+    text-align: center;
+}
+
+.collection-map {
+    display: grid;
+    grid-template-columns: 30vw 30vw 30vw;
+}
+
+.collection-map-list {
+    padding: 1vw;
+}
+
+.collection-map-list img {
+    width: 28vw;
+    height: 25vw;
+}
+
+@media only screen and (max-width: 600px) {
+    .collection-title h1 {
+        font-size: medium;
+    }
+
+    .collection-map-list p {
+        font-size: small;
+    }
+  }
