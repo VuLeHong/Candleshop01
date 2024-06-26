@@ -1,8 +1,68 @@
 .trend-left-and-right {
     display: flex;
     flex-direction: row;
+    padding-left: 10vw;
+    padding-right: 10vw;
+    padding-top: 2vw;
+    align-items: center;
 }
+
 .trend-left img {
-    width: 500px;
-    height: 450px;
+    width: 35vw;
+    height: 30vw;
 }
+
+.trend-right {
+    padding-left: 25px;
+}
+
+.trend-right button {
+    display: inline-block;
+    width: auto;
+    text-decoration: none;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    padding: 8px 15px;
+    background-color: #444444;
+    color: white;
+}
+
+.trend-bottom {
+    display: inline-block;
+    text-align: center;
+    padding-left: 3vw;
+}
+
+@media only screen and (max-width: 600px) {
+    .trend-left-and-right {
+        display: flex;
+        flex-direction: column;
+    }
+    .trend-left img {
+        width: 50vw;
+        height: 45vw;
+    }
+
+    .trend-right h1 {
+        font-size: 15px;
+    }
+
+    .trend-right p {
+        font-size: 13px;
+    }
+
+    .trend-right button {
+        font-size: 15px;
+    }
+
+    .trend-bottom h1 {
+        font-size: 15px;
+    }
+
+    .trend-bottom p {
+        font-size: 13px;
+    }
+  }
