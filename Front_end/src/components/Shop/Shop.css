@@ -1,3 +1,56 @@
-.drop-down-sort {
-    background-color: aqua;
+.shop {
+    border-top: solid 2px white;
+}
+
+.shop-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 3vw;
+    padding-bottom: 3vw;
+    border-bottom: solid 2px white;
+}
+
+.shop-top h1 {
+    font-size: xx-large;
+    color: brown;
+}
+
+.shop-middle {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1vw 1vw 1vw 1vw;
+}
+
+.shop-middle-left {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 2vw;
+    padding-left: 8vw;
+}
+
+.shop-middle-left p {
+    padding-top: 0.45vw;
+}
+
+.shop-middle-right {
+    padding-right: 8vw;
+}
+
+.shop-bottom {
+    display: grid;
+    grid-template-columns: 23vw 23vw 23vw 23vw;
+}
+
+.shop-bottom-list {
+    padding-top: 1vw;
+    padding-left: 4vw;
+    padding-right: 4vw;
+}
+
+.shop-bottom img {
+    width: 20vw;
+    height: 17vw;
 }
