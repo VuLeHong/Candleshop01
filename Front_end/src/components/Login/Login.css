@@ -1,3 +1,8 @@
+.login {
+    border: 2px solid white;
+    padding-top: 2vw;
+}
+
 .login h1 {
     align-items: center;
     display: flex;

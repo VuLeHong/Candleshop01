@@ -1,8 +1,48 @@
 .footer-bottom img {
-    width: 55px;
-    height: 35px;
+    width: 2vw;
+    height: 1.8vw;
 }
+
 .social-logo {
     width: 35px;
     height: 35px;
+}
+
+.footer-top {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.footer-link-bottom {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1vw;
+}
+
+.footer-letter-bottom form input {
+    height: 2.5vw;
+    width: 27vw;
+}
+
+.footer-letter-bottom form button {
+    height: 2.5vw;
+    width: auto;
+}
+
+.footer-bottom {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding-top: 2vw;
+}
+
+.footer {
+    background-color: white;
+}
+
+.footer-bottom-right-top {
+    display: flex;
+    flex-direction: row-reverse;
 }

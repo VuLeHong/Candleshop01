@@ -4,6 +4,7 @@
     align-items: center;
     justify-content: space-between;
     z-index: 99;
+    background-color: antiquewhite;
 }
 
 .navbar-logo{
@@ -23,6 +24,7 @@
     text-decoration: none;
     font-weight: 500;
     margin-left: 1vw;
+    color: black;
 }
 
 .navbar-menu a:hover{

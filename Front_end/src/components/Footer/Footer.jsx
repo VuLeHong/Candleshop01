@@ -16,10 +16,6 @@ const Footer = () => {
                     <h2>Quick Links</h2>
                 </div>
                 <div className="footer-link-bottom">
-                    {/* <Link><p2>Terms of Service</p2></Link>
-                    <Link><p2>Shipping Policy</p2></Link>
-                    <Link><p2>Refund policy</p2></Link>
-                    <Link><p2>Privacy Policy</p2></Link> */}
                     <p>Terms of Service</p>
                     <p>Shipping Policy</p>
                     <p>Refund policy</p>
@@ -27,11 +23,15 @@ const Footer = () => {
                 </div>
             </div>
             <div className="footer-letter">
-                <h2>Newsletter</h2>
-                <form action="">
-                    <input type="text" placeholder='Email address' />
-                    <button>SUBCRIBE</button> 
-                </form>  
+                <div className="footer-letter-top">
+                    <h2>Newsletter</h2>
+                </div>
+                <div className="footer-letter-bottom">
+                    <form action="">
+                        <input className='footer-letter-bottom-input' type="text" placeholder='Email address' />
+                        <button>SUBCRIBE</button> 
+                    </form>  
+                </div>
             </div>
         </div>
         <div className="footer-bottom">
@@ -42,8 +42,8 @@ const Footer = () => {
             </div>
             <div className="footer-bottom-right">
                 <div className="footer-bottom-right-top">
-                    <FaFacebook className='social-logo' />
                     <FaInstagramSquare className='social-logo' />
+                    <FaFacebook className='social-logo' />
                 </div>
                 <div className="footer-bottom-right-bottom">
                     <p>© 2024, shopmicandle Powered by VB</p>

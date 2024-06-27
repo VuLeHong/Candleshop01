@@ -1,6 +1,6 @@
 import NavScrollExample from './components/Navbar/Navbar'
 import Footer from './components/Footer/Footer';
-// import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Home from './components/Home/Home';
 import { BrowserRouter,Routes,Route } from 'react-router-dom';
 import About from './components/About/About'
@@ -8,6 +8,7 @@ import Faq from './components/Faq/Faq';
 import Shop from './components/Shop/Shop';
 import Signup from './components/Signup/Signup';
 import Login from './components/Login/Login';
+import './App.scss'
 
 function App() {
 
