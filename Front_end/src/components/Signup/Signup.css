@@ -1,5 +1,59 @@
-.signup h1 {
+.signup {
+    padding-top: 3vw;
+    color: black;
+}
+
+.signup-top {
     align-items: center;
-    display: flex;
     justify-content: center;
+    display: flex;
+}
+
+.signup-middle {
+    padding-top: 1vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.signup-form-first-name {
+    padding-bottom: 1vw;
+}
+
+.signup-form-last-name {
+    padding-bottom: 1vw;
+}
+
+.signup-form-email {
+    padding-bottom: 1vw;
+}
+
+.signup-form-email p {
+    padding-bottom: 0;
+}
+
+.signup-input {
+    width: 30vw;
+    height: 2.5vw;
+}
+
+.signup-form-password {
+    padding-bottom: 2vw;
+}
+
+.signup-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 3vw;
+}
+
+.signup-bottom button {
+    margin-bottom: 0.7vw;
+    background-color: gray;
+    color: white;
+    height: 2.5vw;
+    width: 7vw;
+    border: none;
 }

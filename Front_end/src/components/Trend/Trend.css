@@ -34,6 +34,8 @@
     display: inline-block;
     text-align: center;
     padding-left: 3vw;
+    padding-bottom: 1vw;
+    padding-top: 1vw;
 }
 
 @media only screen and (max-width: 600px) {

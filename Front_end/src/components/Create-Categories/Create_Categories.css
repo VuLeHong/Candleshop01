@@ -1,0 +1,33 @@
+.create-categories-container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    width: 100vw;
+    background-color: white;
+}
+
+.create-categories-item {
+    display: flex;
+    flex-direction: row;
+    padding-top: 1.5vw;
+    justify-content: space-between;
+    gap: 1vw;
+}
+
+.create-categories-item-bigger-box {
+    display: flex;
+    flex-direction: row;
+    padding-top: 1.5vw;
+    justify-content: space-between;
+    gap: 1vw;
+}
+
+.create-categories-item-bigger-box textarea {
+    width: 12.3vw;
+    height: 10vw;
+}
+
+.create-categories-item input {
+    width: 12.3vw;
+    height: 2vw;
+}

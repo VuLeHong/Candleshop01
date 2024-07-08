@@ -1,0 +1,22 @@
+.sidebar {
+    padding-left: 3vw;
+    padding-top: 5vw;
+    padding-right: 2vw;
+    background-color: white;
+    width: 15vw;
+}
+
+.sidebar-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-list-item {
+    padding-bottom: 2vw;
+}
+
+.sidebar-list-item a {
+    text-decoration: none;
+    color: black;
+}

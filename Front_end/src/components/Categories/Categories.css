@@ -1,0 +1,66 @@
+.categories-container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    width: 100vw;
+    background-color: white;
+}
+
+.create-button {
+    display: flex;
+    flex-direction: row;
+    background-color: rgb(119, 66, 243);
+    color: white;
+    font-size: large;
+    justify-content: center;
+    align-items: center;
+    width: 6vw;
+    height: 3vw;
+    margin-top: 2vw;
+    margin-left: 40vw;
+    margin-bottom: 2vw;
+}
+
+.categories-bottom {
+    background-color: white;
+}
+
+.categories-bottom-title {
+    display: flex;
+    flex-direction: row;
+    padding-left: 2vw;
+}
+
+.categories-bottom-title p {
+    padding-right: 3vw;
+}
+
+.categories-bottom-lists {
+    display: flex;
+    flex-direction: row;
+    padding-left: 2vw;
+}
+
+.categories-bottom-lists p {
+    padding-right: 3vw;
+}
+
+.padding-right-10 p {
+    padding-right: 10vw;
+}
+
+.padding-right-7 p {
+    padding-right: 7vw;
+}
+
+.padding-right-3 p {
+    padding-right: 4vw;
+}
+
+.no-padding p {
+    padding-right: 0.5vw;
+}
+
+.categories-icon {
+    margin-top: 0.3vw;
+}

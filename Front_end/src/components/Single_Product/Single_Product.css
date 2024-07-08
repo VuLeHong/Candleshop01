@@ -1,0 +1,39 @@
+.single-product {
+    display: flex;
+    flex-direction: row;
+    margin-left: 15vw;
+    margin-right: 15vw;
+    margin-top: 5vw;
+    margin-bottom: 2vw;
+    gap: 4vw;
+}
+
+.single-product-right {
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+}
+
+.single-product-right b {
+    font-size: larger;
+}
+
+.add-to-cart {
+    border: 1px solid black;
+    justify-content: center;
+    align-items: center;
+    width: 20vw;
+    height: 3vw;
+    background-color: antiquewhite;
+    font-weight: 500;
+}
+
+.buy-now {
+    border: 1px solid black;
+    justify-content: center;
+    align-items: center;
+    width: 20vw;
+    height: 3vw;
+    background-color: antiquewhite;
+    font-weight: 500;
+}
