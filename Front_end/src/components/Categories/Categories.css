@@ -28,37 +28,37 @@
 .categories-bottom-title {
     display: flex;
     flex-direction: row;
-    padding-left: 2vw;
+    margin-left: 2vw;
 }
 
 .categories-bottom-title p {
-    padding-right: 3vw;
+    margin-right: 3vw;
 }
 
 .categories-bottom-lists {
     display: flex;
     flex-direction: row;
-    padding-left: 2vw;
+    margin-left: 2vw;
 }
 
 .categories-bottom-lists p {
-    padding-right: 3vw;
+    margin-right: 3vw;
 }
 
 .padding-right-10 p {
-    padding-right: 10vw;
+    margin-right: 10vw;
 }
 
 .padding-right-7 p {
-    padding-right: 7vw;
+    margin-right: 7vw;
 }
 
 .padding-right-3 p {
-    padding-right: 4vw;
+    margin-right: 4vw;
 }
 
 .no-padding p {
-    padding-right: 0.5vw;
+    margin-right: 0.5vw;
 }
 
 .categories-icon {

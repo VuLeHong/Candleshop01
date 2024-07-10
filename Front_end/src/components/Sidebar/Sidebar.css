@@ -4,6 +4,7 @@
     padding-right: 2vw;
     background-color: white;
     width: 15vw;
+    border-right: 1px solid black;
 }
 
 .sidebar-list {
@@ -19,4 +20,8 @@
 .sidebar-list-item a {
     text-decoration: none;
     color: black;
+}
+
+.sidebar-logo-logout {
+    margin-bottom: 2vw;
 }

@@ -14,6 +14,7 @@ import Categories from './components/Categories/Categories';
 import Create_Categories from './components/Create-Categories/Create_Categories';
 import Single_Product from './components/Single_Product/Single_Product';
 import Cart from './components/Cart/Cart';
+import Check_out from './components/Check_out/Check_out';
 
 function App() {
 
@@ -34,6 +35,7 @@ function App() {
           <Route path='/categories/create' element={<Create_Categories />} />
           <Route path='/product/:id' element={<Single_Product />} />
           <Route path='/cart' element={<Cart />} />
+          <Route path='/check-out' element={<Check_out />} />
         </Routes>
       </BrowserRouter>
     </>

@@ -3,6 +3,7 @@ import './Cart.css'
 import Navbar from '../Navbar/Navbar'
 import Footer from '../Footer/Footer'
 import product1 from './product1.jpg'
+import { Link } from 'react-router-dom'
 
 const Cart = () => {
   return (
@@ -36,7 +37,7 @@ const Cart = () => {
             <div className="cart-bottom">
                 <p>Subtotal: $100.00</p>
                 <p>Taxes and shipping calculated at checkout</p>
-                <button>CHECK OUT</button>
+                <Link to='/check-out' className='text-decoration-none'><button>CHECK OUT</button></Link>
             </div>
         </div>
         <Footer/>
