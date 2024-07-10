@@ -1,9 +1,14 @@
 const express = require('express');
 const mysql = require('mysql2');
 const dotenv = require('dotenv');
+const fs = require('fs');
+const path = require('path');
 const app = express();
+const multer = require('multer');
 
 app.use(express.json());
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 dotenv.config();
 const PASS = process.env.PASS
 const HOST = process.env.HOST
@@ -105,7 +110,7 @@ app.post('/categoryadd', (req, res) => {
     res.status(200).json(results);
   });
 });
-//showallcategory
+//showallcategory//tested
 app.get('/showcategory', (req, res) => {
   db.query('SELECT * FROM Category', (err, results) => {
     if (err) {
@@ -116,10 +121,10 @@ app.get('/showcategory', (req, res) => {
     res.json(results);
   });
 });
-//category adjust
-app.post('/update_user', (req, res) => {
+//category adjust//tested
+app.post('/update_category', (req, res) => {
   const {Name: Name, Desc: Desc} = req.body;
-  db.query('UPDARTE Category SET `Desc` = ? WHERE Name LIKE ?',[Name, Desc], (err, results) => {
+  db.query('UPDATE Category SET `Desc` = ? WHERE Name LIKE ?',[Desc, Name], (err, results) => {
     if (err) {
       console.error('Không thể lấy dữ liệu từ MySQL:', err);
       res.status(500).send('Không thể lấy dữ liệu từ MySQL');
@@ -140,12 +145,51 @@ app.post('/discount_add', (req, res) => {
     res.status(200).json(results);
   });
 });
-//product add
+//get_all_product//tested
+app.get('/showproduct', (req, res) => {
+  db.query('SELECT * FROM Product', (err, results) => {
+    if (err) {
+      console.error('Không thể lấy dữ liệu từ MySQL:', err);
+      res.status(500).send('Không thể lấy dữ liệu từ MySQL');
+      return;
+    }
+    res.json(results);
+  });
+});
+//get_image_by_id//tested
+app.post('/getimage', (req, res) => {
+  const {id:id} = req.body
+  db.query('SELECT Image FROM Product WHERE id LIKE ?', [id],(err, results) => {
+    if (err) {
+      console.error('Không thể lấy dữ liệu từ MySQL:', err);
+      res.status(500).send('Không thể lấy dữ liệu từ MySQL');
+      return;
+    }
+    if (results.length > 0 && results[0].Image) {
+      const imageBuffer = results[0].Image;
+      const filePath = path.join(__dirname, `${id}.jpg`);
+      
+      fs.writeFile(filePath, imageBuffer, 'binary', (err) => {
+        if (err) {
+          console.error('Cannot write image to file:', err);
+          res.status(500).send('Cannot write image to file');
+          return;
+        }
+        res.status(200).sendFile(filePath);
+      });
+    } else {
+      res.status(404).send('Image not found');
+    }
+    
+    //res.json(filePath);
+  });
+})
+//product add//tested
 app.post('/productadd', (req, res) => {
-  const {Name: Name, Quantity: Quantity, Desc: Desc, Price: Price, Discount: Discount, Category_id: Category_id, Detail: Detail} = req.body;
+  const {Name: Name, Quantity: Quantity, Desc: Desc, Price: Price, Category_id: Category_id, Detail: Detail} = req.body;
   const today = new Date();
   const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-  db.query('INSERT INTO Product (Name, Quantity, `Desc`, Price, Discount, Category_id, Detail, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [Name, Quantity, Desc, Price, Discount, Category_id, Detail, date], (err, results) => {
+  db.query('INSERT INTO Product (Name, Quantity, `Desc`, Price, Category_id, Detail, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)', [Name, Quantity, Desc, Price, Category_id, Detail, date], (err, results) => {
     if (err) {
       console.error('Không thể lấy dữ liệu từ MySQL:', err);
       res.status(500).send('Không thể lấy dữ liệu từ MySQL');
@@ -154,9 +198,10 @@ app.post('/productadd', (req, res) => {
     res.status(200).json(results);
   });
 });
-// product add image
-app.post('/imageadd', (req, res) => {
-  const {photo:photo , Name:Name} = req.body;
+// product add image//tested
+app.post('/imageadd', upload.single('photo'), (req, res) => {
+  const photo = req.file.buffer;
+  const {Name:Name} = req.body;
   db.query('UPDATE Product SET Image = ? WHERE Name LIKE ?', [photo, Name], (err, results) => {
     if (err) {
       console.error('Không thể lấy dữ liệu từ MySQL:', err);
