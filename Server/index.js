@@ -5,7 +5,9 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 const multer = require('multer');
+const cors = require('cors');
 
+app.use(cors());
 app.use(express.json());
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -80,7 +82,7 @@ const db = mysql.createConnection({
   // //user log in//tested
   app.post('/login', (req, res) => {
     const {gmail, password} = req.body;
-    db.query('SELECT GMAIL, PASSWORD FROM USERS WHERE GMAIL LIKE ?', gmail, (err, results) => {
+    db.query('SELECT GMAIL, PASSWORD, IsAdmin FROM Users WHERE GMAIL LIKE ?', gmail, (err, results) => {
       if (err) {
         console.error('Không thể lấy dữ liệu từ MySQL:', err);
         res.status(500).send('Không thể lấy dữ liệu từ MySQL');
@@ -88,7 +90,7 @@ const db = mysql.createConnection({
       }
       else{
         if(results) {
-           if(results.password==password) res.status(200).json(results)
+           if(results[0].PASSWORD==password) res.status(200).json(results[0].IsAdmin)
             else res.status(202).json(results)
         }
         else res.status(204).json(results)
@@ -178,10 +180,10 @@ app.post('/getimage', (req, res) => {
 })
 //product add//tested
 app.post('/productadd', (req, res) => {
-  const {Name: Name, Quantity: Quantity, Desc: Desc, Price: Price, Category_id: Category_id, Detail: Detail} = req.body;
+  const {name: name, quantity: quantity, desc: desc, price: price, category_id: category_id, detail: detail} = req.body;
   const today = new Date();
   const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-  db.query('INSERT INTO Product (Name, Quantity, `Desc`, Price, Category_id, Detail, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)', [Name, Quantity, Desc, Price, Category_id, Detail, date], (err, results) => {
+  db.query('INSERT INTO Product (Name, Quantity, `Desc`, Price, Category_id, Detail, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)', [name, quantity, desc, price, category_id, detail, date], (err, results) => {
     if (err) {
       console.error('Không thể lấy dữ liệu từ MySQL:', err);
       res.status(500).send('Không thể lấy dữ liệu từ MySQL');
@@ -193,8 +195,8 @@ app.post('/productadd', (req, res) => {
 // product add image//tested
 app.post('/imageadd', upload.single('photo'), (req, res) => {
   const photo = req.file.buffer;
-  const {Name:Name} = req.body;
-  db.query('UPDATE Product SET Image = ? WHERE Name LIKE ?', [photo, Name], (err, results) => {
+  const {name:name} = req.body;
+  db.query('UPDATE Product SET Image = ? WHERE Name LIKE ?', [photo, name], (err, results) => {
     if (err) {
       console.error('Không thể lấy dữ liệu từ MySQL:', err);
       res.status(500).send('Không thể lấy dữ liệu từ MySQL');
