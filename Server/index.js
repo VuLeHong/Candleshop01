@@ -167,16 +167,8 @@ app.post('/getimage', (req, res) => {
     }
     if (results.length > 0 && results[0].Image) {
       const imageBuffer = results[0].Image;
-      const filePath = path.join(__dirname, `${id}.jpg`);
-      
-      fs.writeFile(filePath, imageBuffer, 'binary', (err) => {
-        if (err) {
-          console.error('Cannot write image to file:', err);
-          res.status(500).send('Cannot write image to file');
-          return;
-        }
-        res.status(200).sendFile(filePath);
-      });
+      res.setHeader('Content-Type', 'image/jpeg');
+      res.send(imageBuffer);
     } else {
       res.status(404).send('Image not found');
     }
