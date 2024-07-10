@@ -56,7 +56,19 @@ const db = mysql.createConnection({
   //user adjust
   app.post('/update_user', (req, res) => {
     const {gmail: gmail, password: password} = req.body;
-    db.query('UPDARTE Users SET password = ? WHERE GMAIL LIKE ?',[password, gmail], (err, results) => {
+    db.query('UPDATE Users SET password = ? WHERE GMAIL LIKE ?',[password, gmail], (err, results) => {
+      if (err) {
+        console.error('Không thể lấy dữ liệu từ MySQL:', err);
+        res.status(500).send('Không thể lấy dữ liệu từ MySQL');
+        return;
+      }
+      res.status(200).json(results);
+    });
+  });
+  //admin adjust//tested
+  app.post('/update_admin', (req, res) => {
+    const {id:id} = req.body;
+    db.query('UPDATE Users SET IsAdmin = 1 WHERE User_id LIKE ?',[id], (err, results) => {
       if (err) {
         console.error('Không thể lấy dữ liệu từ MySQL:', err);
         res.status(500).send('Không thể lấy dữ liệu từ MySQL');
