@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom'
 import { IoMdSearch } from "react-icons/io";
 import './Navbar.css'
 
-function NavScrollExample() {
+function Navbar() {
   return (
     <div className="navbar">
-      <div className="navbar-logo">VBCandle</div>
+      <a className="navbar-logo" href="/">VBCandle</a>
       <div className="navbar-menu">
         <a href="/" className="navbar-link">Home</a>
         <a href="/shop" className="navbar-link">Shop</a>
@@ -16,11 +16,11 @@ function NavScrollExample() {
       </div>
       <div className="navbar-icon">
         <IoMdSearch />
-        <Link to = '/login'><CiUser /></Link>
-        <CiShoppingCart />
+        <Link to = '/login' className="text-decoration-none"><CiUser /></Link>
+        <Link to='/cart' className="text-decoration-none"><CiShoppingCart /></Link>
       </div>
     </div>
   );
 }
 
-export default NavScrollExample;
+export default Navbar;

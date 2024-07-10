@@ -1,0 +1,38 @@
+.create-products-container {
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    width: 100vw;
+    background-color: white;
+}
+
+.create-products-item {
+    display: flex;
+    flex-direction: row;
+    padding-top: 1.5vw;
+    justify-content: space-between;
+    gap: 1vw;
+}
+
+.create-products-item-bigger-box {
+    display: flex;
+    flex-direction: row;
+    padding-top: 1.5vw;
+    justify-content: space-between;
+    gap: 1vw;
+}
+
+.create-products-item-bigger-box textarea {
+    width: 12.3vw;
+    height: 10vw;
+}
+
+.create-products-item select {
+    width: 12.3vw;
+    height: 2vw;
+}
+
+.create-products-item input {
+    width: 12.3vw;
+    height: 2vw;
+}

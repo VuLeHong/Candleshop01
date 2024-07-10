@@ -2,10 +2,14 @@ import React from 'react'
 import './Shop.css'
 import Dropdown from 'react-bootstrap/Dropdown';
 import product1 from './product1.jpg'
+import Navbar from '../Navbar/Navbar'
+import Footer from '../Footer/Footer'
+import { Link } from 'react-router-dom';
 
 const Shop = () => {
   return (
     <div className='shop'>
+        <Navbar />
         <div className="shop-top">
             <h1>Products</h1>
         </div>
@@ -28,11 +32,13 @@ const Shop = () => {
             </div>
         </div>
         <div className="shop-bottom">
-            <div className="shop-bottom-list">
-                <img src={product1} />
-                <p>Baked Goods | MICANDLE</p>
-                <p>$35.00</p>
-            </div>
+            <Link to='/product/:id' className='text-decoration-none'>
+                <div className="shop-bottom-list">
+                    <img src={product1} />
+                    <p>Baked Goods | MICANDLE</p>
+                    <p>$35.00</p>
+                </div>
+            </Link>
             <div className="shop-bottom-list">
                 <img src={product1} />
                 <p>Baked Goods | MICANDLE</p>
@@ -69,7 +75,9 @@ const Shop = () => {
                 <p>$35.00</p>
             </div>
         </div>
+        <Footer/>
     </div>
+    
   )
 }
 

@@ -12,6 +12,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    padding-top: 2vw;
 }
 
 .footer-link-bottom {
@@ -36,6 +37,7 @@
     flex-direction: row;
     justify-content: space-around;
     padding-top: 2vw;
+    padding-bottom: 0.5vw;
 }
 
 .footer {
@@ -45,4 +47,31 @@
 .footer-bottom-right-top {
     display: flex;
     flex-direction: row-reverse;
+}
+
+@media only screen and (max-width: 600px) {
+
+    .footer-top {
+        flex-direction: column;
+    }
+
+    .footer-link-top h2 {
+        font-size: medium;
+    }
+    
+    .footer-link-bottom {
+        flex-direction: column;
+    }
+
+    .footer-link-bottom p {
+        font-size: smaller;
+    }
+
+    .footer-letter {
+        flex-direction: column;
+    }
+
+    .footer-letter-top h2 {
+        font-size: medium;
+    }
 }

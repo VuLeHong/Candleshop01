@@ -1,0 +1,45 @@
+.forgot {
+    padding-top: 3vw;
+    color: black;
+}
+
+.forgot-title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 1vw;
+    padding-top: 1vw;
+}
+
+.forgot-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.forgot-form-top {
+    padding-bottom: 1vw;
+}
+
+.forgot-form-top input {
+    height: 2.5vw;
+    width: 30vw;
+}
+
+.forgot-form-middle {
+    padding-bottom: 2vw;
+}
+
+.forgot-form-middle button {
+    margin-bottom: 0.7vw;
+    background-color: gray;
+    color: white;
+    height: 2.5vw;
+    width: 7vw;
+    border: none;
+}
+
+.forgot-form-bottom {
+    padding-bottom: 3vw;
+}

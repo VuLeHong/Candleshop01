@@ -1,25 +1,31 @@
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import { Link } from 'react-router-dom'
 import './Login.css'
+import Navbar from '../Navbar/Navbar'
+import Footer from '../Footer/Footer'
 
 function Login() {
   return (
+    <div>
+      <Navbar/>
     <div className="login">
-      <h1>Login</h1>
-      <Form className='login-form'>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" />
-        </Form.Group>
-        <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control type="password" />
-        </Form.Group>
-        <Form.Text className="text-muted">Forgot your password?</Form.Text>
-        <Button variant="primary" type="submit">Submit</Button>
-        <Link to = '/signup'><Form.Text className="text-muted">Create account</Form.Text></Link>
-      </Form>
+      <h1 className='login-top'>Login</h1>
+      <div className='login-middle'>
+        <div className="login-form-email">
+          <p>Email address</p>
+          <input type="text" className="login-input" />
+        </div>
+        <div className="login-form-password">
+          <p>Password</p>
+          <input type="text" className="login-input" />
+        </div>
+      </div>
+      <div className="login-bottom">
+        <Link to = '/forgot' className='text-decoration-none'><p>Forgot your password</p></Link>
+        <button>SIGN IN</button>
+        <Link to = '/signup' className='text-decoration-none'><p>Create account</p></Link>
+      </div>
+    </div>
+    <Footer/>
     </div>
   );
 }

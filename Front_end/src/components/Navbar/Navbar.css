@@ -5,10 +5,13 @@
     justify-content: space-between;
     z-index: 99;
     background-color: antiquewhite;
+    border-bottom: 2px solid white;
 }
 
 .navbar-logo{
     font-size: 25px;
+    text-decoration: none;
+    color: black;
 }
 
 .navbar-menu{
