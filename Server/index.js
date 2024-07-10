@@ -54,7 +54,19 @@ const db = mysql.createConnection({
   //user adjust
   app.post('/update_user', (req, res) => {
     const {gmail: gmail, password: password} = req.body;
-    db.query('UPDARTE Users SET password = ? WHERE GMAIL LIKE ?',[password, gmail], (err, results) => {
+    db.query('UPDATE Users SET password = ? WHERE GMAIL LIKE ?',[password, gmail], (err, results) => {
+      if (err) {
+        console.error('Không thể lấy dữ liệu từ MySQL:', err);
+        res.status(500).send('Không thể lấy dữ liệu từ MySQL');
+        return;
+      }
+      res.status(200).json(results);
+    });
+  });
+  //admin adjust//tested
+  app.post('/update_admin', (req, res) => {
+    const {id:id} = req.body;
+    db.query('UPDATE Users SET IsAdmin = 1 WHERE User_id LIKE ?',[id], (err, results) => {
       if (err) {
         console.error('Không thể lấy dữ liệu từ MySQL:', err);
         res.status(500).send('Không thể lấy dữ liệu từ MySQL');
@@ -80,7 +92,7 @@ const db = mysql.createConnection({
   // //user log in//tested
   app.post('/login', (req, res) => {
     const {gmail, password} = req.body;
-    db.query('SELECT GMAIL, PASSWORD FROM USERS WHERE GMAIL LIKE ?', gmail, (err, results) => {
+    db.query('SELECT GMAIL, PASSWORD, IsAdmin FROM Users WHERE GMAIL LIKE ?', gmail, (err, results) => {
       if (err) {
         console.error('Không thể lấy dữ liệu từ MySQL:', err);
         res.status(500).send('Không thể lấy dữ liệu từ MySQL');
@@ -88,7 +100,7 @@ const db = mysql.createConnection({
       }
       else{
         if(results) {
-           if(results.password==password) res.status(200).json(results)
+           if(results[0].PASSWORD==password) res.status(200).json(results[0].IsAdmin)
             else res.status(202).json(results)
         }
         else res.status(204).json(results)
