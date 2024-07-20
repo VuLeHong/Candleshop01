@@ -150,7 +150,7 @@ app.post('/update_category', (req, res) => {
 // Discount_add
 app.post('/discount_add', (req, res) => {
   const {Name: Name, Discount: Discount} = req.body;
-  db.query('UPDARTE Product SET Discount = ? WHERE Name LIKE ?',[Name, Discount], (err, results) => {
+  db.query('UPDATE Product SET Discount = ? WHERE Name LIKE ?',[Name, Discount], (err, results) => {
     if (err) {
       console.error('Không thể lấy dữ liệu từ MySQL:', err);
       res.status(500).send('Không thể lấy dữ liệu từ MySQL');

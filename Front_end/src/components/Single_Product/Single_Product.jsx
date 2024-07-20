@@ -2,22 +2,80 @@ import React from 'react'
 import './Single_Product.css'
 import Navbar from '../Navbar/Navbar'
 import Footer from '../Footer/Footer'
-import product1 from './product1.jpg'
 import { Link } from 'react-router-dom'
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useLocation } from 'react-router-dom';
+// import { useContext } from 'react'
+// import { ShopContext } from '../../context/ShopContext'
+import { useState, useEffect } from 'react'
 
-const Single_Product = () => {
+const SingleProduct = () => {
+  const current = useLocation()
+  const value = current.state || undefined;
+  // const {addToCart} = useContext(ShopContext) || {};
+
+  const [cartItems, setCartItems] = useState(() => {
+    const savedItems = sessionStorage.getItem('cartItems');
+    return savedItems ? JSON.parse(savedItems) : {};
+  });
+
+  useEffect(() => {
+    sessionStorage.setItem('cartItems', JSON.stringify(cartItems));
+  }, [cartItems]);
+
+  const addToCart = (product) => {
+    setCartItems((prev) => {
+      const updatedItems = { ...prev };
+      if (updatedItems[product.id]) {
+        updatedItems[product.id].Quantity += 1;
+        updatedItems[product.id] = {
+          id: product.id,
+          Name: product.Name,
+          Price: product.Price,
+        };
+      } else {
+        updatedItems[product.id] = {
+          id: product.id,
+          Name: product.Name,
+          Price: product.Price,
+          Quantity: 1
+        };
+      }
+      return updatedItems;
+    });
+  };
+
+  const removeFromCart = (item) => {
+    setCartItems((prev) => {
+      const updatedItems = { ...prev };
+      delete updatedItems[item.id];
+      return updatedItems;
+    });
+  };
+
+  const show = () => {
+    toast.success("San pham da duoc dat thanh cong", {
+      position: "top-right",
+    });
+    addToCart(value.p)
+  }
+
   return (
     <div>
         <Navbar/>
         <div className='single-product'>
             <div className="single-product-left">
-                <img src={product1} alt="product1" />
+                <img src={value.i} alt={value.p.Name} />
             </div>
             <div className="single-product-right">
-                <b>Siesta | MICANDLE</b>
-                <p>$25.00</p>
+                <b>{value.p.Name}</b>
+                <p>{value.p.Price} VND</p>
                 <p>Shipping calculated at checkout.</p>
-                <Link to='/cart' className='text-decoration-none'><button className="add-to-cart">ADD TO CART</button></Link>
+                <div>
+                  <button className="add-to-cart" onClick={show}>ADD TO CART</button>
+                  <ToastContainer />
+                </div>
                 <Link to='/check-out' className='text-decoration-none'><button className="buy-now">BUY NOW</button></Link>
                 <p>A pillowy powder fresh aroma with an underlying deep yet subtle sweetness to relax and calm your space with notes of tonka oud and vanilla. Whether you're having a chill or chore day at home, this candle scent will surely add love and light into your space.</p>
                 <p>Product Info: </p>
@@ -32,4 +90,4 @@ const Single_Product = () => {
   )
 }
 
-export default Single_Product
+export default SingleProduct

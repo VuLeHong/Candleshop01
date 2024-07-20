@@ -74,4 +74,22 @@
     .footer-letter-top h2 {
         font-size: medium;
     }
+
+    .footer-letter-bottom-form {
+        font-size: smaller;
+    }
+
+    .footer-letter-bottom-input {
+        width: 10vh;
+        height: 5vh;
+    }
+
+    .footer-letter-bottom-form button {
+        width: 10vh;
+        height: 5vh;
+    }
+
+    .footer-letter-bottom-button {
+        font-size: smaller;
+    }
 }
