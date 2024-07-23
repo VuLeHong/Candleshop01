@@ -53,9 +53,14 @@
 
 .cart-bottom {
     padding-top: 3vw;
+    padding-left: 80vw;
 }
 
 .cart-bottom button {
     background-color: gray;
     color: white;
+}
+
+.empty-notice {
+    margin-bottom: 3vw;
 }
