@@ -1,12 +1,40 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import './Shop.css'
 import Dropdown from 'react-bootstrap/Dropdown';
-import product1 from './product1.jpg'
 import Navbar from '../Navbar/Navbar'
 import Footer from '../Footer/Footer'
 import { Link } from 'react-router-dom';
+import axios from 'axios'
 
 const Shop = () => {
+
+    const [products,setProducts] = useState([])
+    const [images, setImages] = useState({});
+
+    const getProducts = async () => {
+        try {
+          const response = await axios.get('http://localhost:5000/showproduct');
+          setProducts(response.data);
+          response.data.forEach(product => getImageById(product.id));
+        } catch (error) {
+          console.error(error.message);
+        }
+      };
+    
+      const getImageById = async (id) => {
+        try {
+          const response = await axios.post('http://localhost:5000/getimage', { id }, { responseType: 'arraybuffer' });
+          const imageUrl = URL.createObjectURL(new Blob([response.data], { type: 'image/jpeg' }));
+          setImages(prevImages => ({ ...prevImages, [id]: imageUrl }));
+        } catch (error) {
+          console.error(`Error fetching image for product ${id}:`, error.message);
+        }
+      };
+    
+      useEffect(() => {
+        getProducts();
+      }, []);
+
   return (
     <div className='shop'>
         <Navbar />
@@ -32,48 +60,16 @@ const Shop = () => {
             </div>
         </div>
         <div className="shop-bottom">
-            <Link to='/product/:id' className='text-decoration-none'>
-                <div className="shop-bottom-list">
-                    <img src={product1} />
-                    <p>Baked Goods | MICANDLE</p>
-                    <p>$35.00</p>
-                </div>
-            </Link>
-            <div className="shop-bottom-list">
-                <img src={product1} />
-                <p>Baked Goods | MICANDLE</p>
-                <p>$35.00</p>
-            </div>
-            <div className="shop-bottom-list">
-                <img src={product1} />
-                <p>Baked Goods | MICANDLE</p>
-                <p>$35.00</p>
-            </div>
-            <div className="shop-bottom-list">
-                <img src={product1} />
-                <p>Baked Goods | MICANDLE</p>
-                <p>$35.00</p>
-            </div>
-            <div className="shop-bottom-list">
-                <img src={product1} />
-                <p>Baked Goods | MICANDLE</p>
-                <p>$35.00</p>
-            </div>
-            <div className="shop-bottom-list">
-                <img src={product1} />
-                <p>Baked Goods | MICANDLE</p>
-                <p>$35.00</p>
-            </div>
-            <div className="shop-bottom-list">
-                <img src={product1} />
-                <p>Baked Goods | MICANDLE</p>
-                <p>$35.00</p>
-            </div>
-            <div className="shop-bottom-list">
-                <img src={product1} />
-                <p>Baked Goods | MICANDLE</p>
-                <p>$35.00</p>
-            </div>
+            {products.map(product => (
+                <Link to={`/product/${product.id}`} state={{p: product, i: images[product.id]}} className='text-decoration-none' >
+                    <div className="shop-bottom-list">
+                        <img src={images[product.id]} />
+                        <p>{product.Name}</p>
+                        <p>{product.Price} VND</p>
+                    </div>
+                </Link>
+            ))
+            }
         </div>
         <Footer/>
     </div>

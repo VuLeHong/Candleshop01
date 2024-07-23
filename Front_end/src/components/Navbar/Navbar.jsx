@@ -4,14 +4,20 @@ import { Link } from 'react-router-dom'
 import { IoMdSearch } from "react-icons/io";
 import { CiLogout } from "react-icons/ci";
 import './Navbar.css'
+import { useNavigate } from 'react-router-dom'
+import { ShopContext } from "../../context/ShopContext";
+import { useContext } from "react";
 
 const Navbar = () => {
 
+  // const {getTotalCartItems} = useContext(ShopContext);
   var auth = sessionStorage.getItem("user")
+  const history = useNavigate();
   const logout = () => {
     alert("Bai bai")
     sessionStorage.clear();
     auth = null;
+    history("/")
   }
 
   return (
@@ -34,11 +40,10 @@ const Navbar = () => {
         :
         <div className="navbar-icon">
           <IoMdSearch />
-          <Link to='/cart' className="text-decoration-none"><CiShoppingCart /></Link>
+          <Link to='/cart' className="text-decoration-none"><CiShoppingCart /></Link>  
           <CiLogout onClick={logout} />
         </div>
       }
-      
     </div>
   );
 }
