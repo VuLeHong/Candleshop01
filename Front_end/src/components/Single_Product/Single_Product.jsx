@@ -13,7 +13,7 @@ import { useState, useEffect } from 'react'
 const SingleProduct = () => {
   const current = useLocation()
   const value = current.state || undefined;
-  // const {addToCart} = useContext(ShopContext) || {};
+  const total = value.p.Price
 
   const [cartItems, setCartItems] = useState(() => {
     const savedItems = sessionStorage.getItem('cartItems');
@@ -46,14 +46,6 @@ const SingleProduct = () => {
     });
   };
 
-  const removeFromCart = (item) => {
-    setCartItems((prev) => {
-      const updatedItems = { ...prev };
-      delete updatedItems[item.id];
-      return updatedItems;
-    });
-  };
-
   const show = () => {
     toast.success("San pham da duoc dat thanh cong", {
       position: "top-right",
@@ -76,7 +68,7 @@ const SingleProduct = () => {
                   <button className="add-to-cart" onClick={show}>ADD TO CART</button>
                   <ToastContainer />
                 </div>
-                <Link to='/check-out' className='text-decoration-none'><button className="buy-now">BUY NOW</button></Link>
+                <Link to='/check-out' state={{t: total}} className='text-decoration-none'><button className="buy-now">BUY NOW</button></Link>
                 <p>A pillowy powder fresh aroma with an underlying deep yet subtle sweetness to relax and calm your space with notes of tonka oud and vanilla. Whether you're having a chill or chore day at home, this candle scent will surely add love and light into your space.</p>
                 <p>Product Info: </p>
                 <p>100% soy wax candle with crackling wooden wick in glossy black glass tumbler. 10 ounces (283g). 3.5 inches (8.9cm) tall. Roughly 50 hour burn time.</p>

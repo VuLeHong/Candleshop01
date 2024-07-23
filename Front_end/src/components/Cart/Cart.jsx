@@ -9,6 +9,7 @@ const Cart = () => {
     const [images, setImages] = useState({});
     const [quantities, setQuantities] = useState({});
     const [cartItems, setCartItems] = useState(JSON.parse(sessionStorage.getItem("cartItems")) || {});
+    const [eachTotals, setEachTotals] = useState({});
 
     const getProducts = async () => {
         try {
@@ -64,40 +65,47 @@ const Cart = () => {
                     <h1>Your cart</h1>
                     <Link to='/shop' className='text-decoration-none'><u>Continue shopping</u></Link>
                 </div>
-                <div className="cart-title">
-                    <p className='more-space'>PRODUCT</p>
-                    <p>PRICE</p>
-                    <p>QUANTITY</p>
-                    <p>TOTAL</p>
-                </div>
-                {Object.entries(cartItems).map(([id, cartItem]) => (
-                    <div className="cart-list" key={id}>
-                        <div className="cart-list-product">
-                            <div className='cart-list-product-img'>
-                                <img src={images[cartItem.id]} alt={cartItem.Name} />
-                            </div>
-                            <div className='cart-list-product-text'>
-                                <p>{cartItem.Name}</p>
-                                <u onClick={() => handleRemoveProduct(id)}>Remove</u>
-                            </div>
-                        </div>
-                        <p>{cartItem.Price} VND</p>
-                        <input 
-                            type="number" 
-                            min="0" 
-                            value={quantities[id] || 1} 
-                            onChange={(e) => handleQuantityChange(id, e.target.value)}
-                        />
-                        <p>{(cartItem.Price * (quantities[id] || 1))} VND</p>
+                {Object.entries(cartItems).length === 0 
+                ? 
+                <div className='empty-notice'>Your cart is empty</div> 
+                :
+                <div>
+                    <div className="cart-title">
+                        <p className='more-space'>PRODUCT</p>
+                        <p>PRICE</p>
+                        <p>QUANTITY</p>
+                        <p>TOTAL</p>
                     </div>
-                ))}
-                <div className="cart-bottom">
-                    <p>Subtotal: {subtotal} VND</p>
-                    <p>Taxes and shipping calculated at checkout</p>
-                    <Link to='/check-out' className='text-decoration-none'>
-                        <button>CHECK OUT</button>
-                    </Link>
+                    {Object.entries(cartItems).map(([id, cartItem]) => (
+                        <div className="cart-list" key={id}>
+                            <div className="cart-list-product">
+                                <div className='cart-list-product-img'>
+                                    <img src={images[cartItem.id]} alt={cartItem.Name} />
+                                </div>
+                                <div className='cart-list-product-text'>
+                                    <p>{cartItem.Name}</p>
+                                    <u onClick={() => handleRemoveProduct(id)}>Remove</u>
+                                </div>
+                            </div>
+                            <p>{cartItem.Price} VND</p>
+                            <input 
+                                type="number" 
+                                min="0" 
+                                value={quantities[id] || 1} 
+                                onChange={(e) => handleQuantityChange(id, e.target.value)}
+                            />
+                            <p>{(cartItem.Price * (quantities[id] || 1))} VND</p>
+                        </div>
+                    ))}
+                    <div className="cart-bottom">
+                        <p>Subtotal: {subtotal} VND</p>
+                        <p>Taxes and shipping calculated at checkout</p>
+                        <Link to='/check-out' state={{t: subtotal}} className='text-decoration-none'>
+                            <button>CHECK OUT</button>
+                        </Link>
+                    </div>
                 </div>
+                }
             </div>
             <Footer/>
         </div>
