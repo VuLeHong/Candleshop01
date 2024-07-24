@@ -97,15 +97,18 @@ const db = mysql.createConnection({
     db.query('SELECT GMAIL, PASSWORD, IsAdmin FROM Users WHERE GMAIL LIKE ?', gmail, (err, results) => {
       if (err) {
         console.error('Không thể lấy dữ liệu từ MySQL:', err);
-        res.status(500).send('Không thể lấy dữ liệu từ MySQL');
-        return;
+        res.status(500).send('lỗi hệ thống');
+        //return;
       }
       else{
-        if(results) {
-           if(results[0].PASSWORD==password) res.status(200).json(results[0].IsAdmin)
+       
+        if(results.length>0) { 
+            if(results[0].PASSWORD==password) res.status(200).json(results[0].IsAdmin)
             else res.status(202).json(results)
         }
-        else res.status(204).json(results)
+        else {
+          res.status(204).send('ng dung ko ton tai');
+        }
       }
       
     });
