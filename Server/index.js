@@ -30,7 +30,7 @@ const db = mysql.createConnection({
     }
     console.log('Đã kết nối đến MySQL');
   });
-  //get all users//tested
+  // get all users//tested
   app.get('/users', (req, res) => {
     db.query('SELECT * FROM Users', (err, results) => {
       if (err) {
@@ -44,15 +44,38 @@ const db = mysql.createConnection({
   // user delete//tested
   app.post('/delete_user', (req, res) => {
     const {gmail: gmail} = req.body;
-    db.query('DELETE FROM Users WHERE GMAIL LIKE ?', gmail, (err, results) => {
+    db.query('SELECT User_id FROM Users WHERE GMAIL LIKE ?', [gmail], (err, results) => {
       if (err) {
-        console.error('Không thể lấy dữ liệu từ MySQL:', err);
-        res.status(500).send('Không thể lấy dữ liệu từ MySQL');
-        return;
+          console.error('Không thể lấy dữ liệu từ MySQL:', err);
+          res.status(500).send('Không thể lấy dữ liệu từ MySQL');
+          return;
       }
-      res.status(200).json(results);
-    });
+      if (results.length === 0) {
+          res.status(404).send('User not found');
+          return;
+      }
+      const userId = results[0].User_id;
+        const newAutoIncrementValue = userId - 1;
+        const alterTableQuery = `ALTER TABLE Users AUTO_INCREMENT = ${newAutoIncrementValue}`;
+      db.query('DELETE FROM Users WHERE GMAIL LIKE ?', [gmail], (err, results) => {
+        if (err) {
+          console.error('Không thể xóa người dùng:', err);
+          res.status(500).send('Không thể xóa người dùng');
+          return;
+        }
+        
+        db.query(alterTableQuery, (err) => {
+          if (err) {
+              console.error('Không thể cập nhật AUTO_INCREMENT:', err);
+              res.status(500).send('Không thể cập nhật AUTO_INCREMENT');
+              return;
+          }
+              res.status(200).json(results);
+        });
+          });
   });
+    
+});
   //user adjust
   app.post('/update_user', (req, res) => {
     const {gmail: gmail, password: password} = req.body;
@@ -127,6 +150,41 @@ app.post('/categoryadd', (req, res) => {
     res.status(200).json(results);
   });
 });
+//delete_category
+app.post('/delete_category', (req, res) => {
+  const {Name: Name} = req.body;
+  db.query('SELECT id FROM Category WHERE Name LIKE ?', [Name], (err, results) => {
+    if (err) {
+        console.error('Không thể lấy dữ liệu từ MySQL:', err);
+        res.status(500).send('Không thể lấy dữ liệu từ MySQL');
+        return;
+    }
+    if (results.length === 0) {
+        res.status(404).send('User not found');
+        return;
+    }
+    const categoryId = results[0].id;
+      const newAutoIncrementValue = categoryId - 1;
+      const alterTableQuery = `ALTER TABLE Category AUTO_INCREMENT = ${newAutoIncrementValue}`;
+    db.query('DELETE FROM Category WHERE Name LIKE ?', [Name], (err, results) => {
+      if (err) {
+        console.error('Không thể xóa người dùng:', err);
+        res.status(500).send('Không thể xóa người dùng');
+        return;
+      }
+      
+      db.query(alterTableQuery, (err) => {
+        if (err) {
+            console.error('Không thể cập nhật AUTO_INCREMENT:', err);
+            res.status(500).send('Không thể cập nhật AUTO_INCREMENT');
+            return;
+        }
+            res.status(200).json(results);
+      });
+        });
+});
+  
+});
 //showallcategory//tested
 app.get('/showcategory', (req, res) => {
   db.query('SELECT * FROM Category', (err, results) => {
@@ -189,10 +247,43 @@ app.post('/getimage', (req, res) => {
     } else {
       res.status(404).send('Image not found');
     }
-    
-    //res.json(filePath);
   });
 })
+// delete product 
+app.post('/delete_product', (req, res) => {
+  const {Name: Name} = req.body;
+  db.query('SELECT id FROM Product WHERE Name LIKE ?', [Name], (err, results) => {
+    if (err) {
+        console.error('Không thể lấy dữ liệu từ MySQL:', err);
+        res.status(500).send('Không thể lấy dữ liệu từ MySQL');
+        return;
+    }
+    if (results.length === 0) {
+        res.status(404).send('User not found');
+        return;
+    }
+    const productId = results[0].id;
+      const newAutoIncrementValue = productId - 1;
+      const alterTableQuery = `ALTER TABLE Product AUTO_INCREMENT = ${newAutoIncrementValue}`;
+    db.query('DELETE FROM Product WHERE Name LIKE ?', [Name], (err, results) => {
+      if (err) {
+        console.error('Không thể xóa người dùng:', err);
+        res.status(500).send('Không thể xóa người dùng');
+        return;
+      }
+      
+      db.query(alterTableQuery, (err) => {
+        if (err) {
+            console.error('Không thể cập nhật AUTO_INCREMENT:', err);
+            res.status(500).send('Không thể cập nhật AUTO_INCREMENT');
+            return;
+        }
+            res.status(200).json(results);
+      });
+        });
+    });
+  
+});
 //product add//tested
 app.post('/productadd', (req, res) => {
   const {name: name, quantity: quantity, desc: desc, price: price, category_id: category_id, detail: detail} = req.body;
@@ -232,20 +323,99 @@ app.get('/getpid', (req, res) => {
     res.json(results);
   });
 });
-//create order
-app.post('/order_create', (req, res) => {
-  const {User_name: User_name, Gmail: Gmail, Phone_Number: Phone_Number, Address: Address} = req.body;
-  const today = new Date();
-  const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-  db.query('INSERT INTO Orders (User_name, Gmail, Phone_Number, Address, created_at) VALUES (?, ?, ?, ?, ?)', [User_name, Gmail, Phone_Number, Address, date], (err, results) => {
+//delete order
+app.post('/delete_order', (req, res) => {
+  const {id: id} = req.body;
+      const newAutoIncrementValue = id - 1;
+      const alterTableQuery = `ALTER TABLE Orders AUTO_INCREMENT = ${newAutoIncrementValue}`;
+    db.query('DELETE FROM Orders WHERE id LIKE ?', [id], (err, results) => {
+      if (err) {
+        console.error('Không thể xóa người dùng:', err);
+        res.status(500).send('Không thể xóa người dùng');
+        return;
+      }
+      
+      db.query(alterTableQuery, (err) => {
+        if (err) {
+            console.error('Không thể cập nhật AUTO_INCREMENT:', err);
+            res.status(500).send('Không thể cập nhật AUTO_INCREMENT');
+            return;
+        }
+            res.status(200).json(results);
+      });
+      });
+});
+  
+
+//show order
+app.get('/showorders', (req, res) => {
+  db.query('SELECT * FROM Orders', (err, results) => {
     if (err) {
       console.error('Không thể lấy dữ liệu từ MySQL:', err);
       res.status(500).send('Không thể lấy dữ liệu từ MySQL');
       return;
     }
-    res.status(200).json(results);
+    res.json(results);
   });
 });
+//create order
+// app.post('/order_create', async(req, res) => {
+//   const {User_name: User_name, Gmail: Gmail, Phone_Number: Phone_Number, Address: Address, Cart_Items: Cart_Items, Amount: Amount} = req.body;
+//   const today = new Date();
+//   const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+//   try {
+//     const [order] = await db.query('INSERT INTO Orders (User_name, Gmail, Phone_Number, Address, created_at) VALUES (?, ?, ?, ?, ?)', [User_name, Gmail, Phone_Number, Address, date])
+//     const order_id = order.insertId;
+//     for (let item of Cart_Items){
+//       //console.log(item.id);
+//       const p_id = item.id;
+//       const quantity = item.quantity;
+//       console.log(p_id);
+//       await db.query('INSERT INTO Order_item (Order_id, Product_id, Quantity) VALUES (?, ?, ?)', [order_id, p_id, quantity])
+//     }
+//   } catch (error) {
+//     console.log(error); 
+//     res.status(500).send('Không thể lấy dữ liệu từ MySQL');
+//   }
+//   res.status(200).json(Cart_Items);
+
+//   // db.query('INSERT INTO Orders (User_name, Gmail, Phone_Number, Address, created_at) VALUES (?, ?, ?, ?, ?)', [User_name, Gmail, Phone_Number, Address, date], (err, results) => {
+
+//   //   //res.status(200).json(results);
+//   //   const order_id = results.insertId;
+//   //   try {
+//   //     //res.json(Cart_Items)
+//   //     for (let item of Cart_Items){
+//   //       //console.log(item.id);
+//   //       const p_id = (item.id);
+//   //        const quantity = item.quantity;
+//   //       await db.query('INSERT INTO Order_item (Order_id, Product_id, Quantity) VALUES (?, ?, ?)', [order_id, p_id, quantity])
+//   //   } 
+//   //   } catch (error) {
+//   //    console.log(error); 
+//   //    res.status(500).send('Không thể lấy dữ liệu từ MySQL');
+
+//   //   }
+
+//     // db.query('INSERT INTO Payment (Order_id, Amount, Create_at) VALUES (?, ?, ?)', [order_id, Amount, date], (err, results) => {
+//     //   if (err) {
+//     //     console.error('Không thể lấy dữ liệu từ MySQL:', err);
+//     //     res.status(500).send('Không thể lấy dữ liệu từ MySQL');
+//     //     return;
+//     //   }
+//     //   res.status(200).json(results);
+//     //   const payment_id = results.insertId;
+//     //   db.query('UPDATE Orders SET Payment_id = ? WHERE id LIKE ?', [payment_id, order_id], (err, results) => {
+//     //     if (err) {
+//     //       console.error('Không thể lấy dữ liệu từ MySQL:', err);
+//     //       res.status(500).send('Không thể lấy dữ liệu từ MySQL');
+//     //       return;
+//     //     }
+//     //     res.status(200).json(results);
+//     //   });
+//     // });
+//   }); 
+
 // order_item_add
 app.post('/order_item_add', (req, res) => {
   const {Order_id: Order_id, Product_id:Product_id} = req.body;
