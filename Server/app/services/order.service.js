@@ -66,7 +66,12 @@ module.exports = {
         const today = new Date();
         const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
         try {
-            db.query('INSERT INTO Orders (User_name, Gmail, Phone_Number, Address, created_at) VALUES (?, ?, ?, ?, ?)', [User_name, Gmail, Phone_Number, Address, date], (results) =>{
+            db.query('INSERT INTO Orders (User_name, Gmail, Phone_Number, Address, created_at) VALUES (?, ?, ?, ?, ?)', [User_name, Gmail, Phone_Number, Address, date], (err,results) =>{
+                if (err) {
+                    console.error('Không thể lấy dữ liệu từ MySQL:', err);
+                    res.status(500).send('Không thể lấy dữ liệu từ MySQL');
+                    return;
+                    }
                 res.status(200).json(results.insertId);
             })
         } catch (error) {

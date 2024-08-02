@@ -45,9 +45,9 @@ const Check_out = () => {
 
       .then (res=>{
         if (res.status === 200) {
-          
+          console.log(res);
           try {
-            axios.post("http://localhost:5000/api/v1/order_payment/:id",{
+            axios.post(`http://localhost:5000/api/v1/order_payment/${res}`,{
               total
             })
 
@@ -70,7 +70,7 @@ const Check_out = () => {
           }
 
           try {
-            axios.put("http://localhost:5000/api/v1/order/:id",{
+            axios.put(`http://localhost:5000/api/v1/order/${res}`,{
               cartItems
             })
 

@@ -15,7 +15,11 @@ const Shop = () => {
         try {
           const response = await axios.get('http://localhost:5000/api/v1/product');
           setProducts(response.data);
-          response.data.forEach(product => getImageById(product.id));
+          response.data.forEach(product => {
+            console.log(product.id)
+             getImageById(product.id)
+          }
+        );
         } catch (error) {
           console.error(error.message);
         }
@@ -23,8 +27,9 @@ const Shop = () => {
     
       const getImageById = async (id) => {
         try {
-          const response = await axios.post('http://localhost:5000/api/v1/product_image/:id', { id }, { responseType: 'arraybuffer' });
+          const response = await axios.get(`http://localhost:5000/api/v1/product_image/${id}`, { responseType: 'arraybuffer' });
           const imageUrl = URL.createObjectURL(new Blob([response.data], { type: 'image/jpeg' }));
+          console.log(response.data)
           setImages(prevImages => ({ ...prevImages, [id]: imageUrl }));
         } catch (error) {
           console.error(`Error fetching image for product ${id}:`, error.message);
