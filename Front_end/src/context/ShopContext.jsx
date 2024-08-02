@@ -10,7 +10,7 @@ const ShopContextProvider = (props) => {
 
     const getProducts = async () => {
         try {
-          const response = await axios.get('http://localhost:5000/showproduct');
+          const response = await axios.get('http://localhost:5000/api/v1/product');
           setProducts(response.data);
         } catch (error) {
           console.error(error.message);

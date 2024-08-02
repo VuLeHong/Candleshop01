@@ -57,6 +57,17 @@ module.exports = {
         res.status(200).json(results);
         });
     },
+    updateAdmin: function (req, res) {
+        let id = req.params.id || '';
+        db.query('UPDATE Users SET IsAdmin = 1 WHERE User_id LIKE ?',id, (err, results) => {
+        if (err) {
+            console.error('Không thể lấy dữ liệu từ MySQL:', err);
+            res.status(500).send('Không thể lấy dữ liệu từ MySQL');
+            return;
+        }
+        res.status(200).json(results);
+        });
+    },
     
     updatePassword: function (req, res) {
         const {gmail: gmail, password: password} = req.body;
