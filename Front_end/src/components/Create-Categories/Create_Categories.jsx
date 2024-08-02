@@ -13,7 +13,7 @@ const Create_Categories = () => {
   function submit(e) {
     e.preventDefault(); 
     try {
-      axios.post("http://localhost:5000/categoryadd",{
+      axios.post("http://localhost:5000/api/v1/category",{
         name, desc
       })
 

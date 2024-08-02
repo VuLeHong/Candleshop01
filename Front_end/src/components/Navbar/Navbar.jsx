@@ -5,12 +5,9 @@ import { IoMdSearch } from "react-icons/io";
 import { CiLogout } from "react-icons/ci";
 import './Navbar.css'
 import { useNavigate } from 'react-router-dom'
-import { ShopContext } from "../../context/ShopContext";
-import { useContext } from "react";
 
 const Navbar = () => {
 
-  // const {getTotalCartItems} = useContext(ShopContext);
   var auth = sessionStorage.getItem("user")
   const history = useNavigate();
   const logout = () => {
