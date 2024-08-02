@@ -6,8 +6,6 @@ import { Link } from 'react-router-dom'
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useLocation } from 'react-router-dom';
-// import { useContext } from 'react'
-// import { ShopContext } from '../../context/ShopContext'
 import { useState, useEffect } from 'react'
 
 const SingleProduct = () => {

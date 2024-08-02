@@ -20,7 +20,7 @@ const Create_Products = () => {
 
     const getCategories = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/showcategory');
+            const response = await axios.get('http://localhost:5000/api/v1/category');
             setCategories(response.data);
         } catch (error) {
             console.error(error.message);
@@ -34,7 +34,7 @@ const Create_Products = () => {
     function submit(e) {
         e.preventDefault(); 
         try {
-          axios.post("http://localhost:5000/productadd",{
+          axios.post("http://localhost:5000/api/v1/product",{
             name, quantity, desc, price, category_id, detail
           })
     
@@ -58,7 +58,7 @@ const Create_Products = () => {
         }
 
         try {
-          axios.post("http://localhost:5000/imageadd",{
+          axios.post("http://localhost:5000/api/v1/product_image",{
             photo, name
           }, {
             headers: {
