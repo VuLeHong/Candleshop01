@@ -111,7 +111,7 @@ const Check_out = () => {
 
   }
 
-  console.log(quantities)
+  console.log(cartItems)
 
   return (
     <div>

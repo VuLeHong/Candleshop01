@@ -81,21 +81,11 @@ module.exports = {
         });
     },
     deleteOne: function (req, res) {
-        const {gmail: gmail} = req.body;
-        db.query('SELECT User_id FROM Users WHERE GMAIL LIKE ?', [gmail], (err, results) => {
-        if (err) {
-            console.error('Không thể lấy dữ liệu từ MySQL:', err);
-            res.status(500).send('Không thể lấy dữ liệu từ MySQL');
-            return;
-        }
-        if (results.length === 0) {
-            res.status(404).send('User not found');
-            return;
-        }
-        const userId = results[0].User_id;
+        let id = req.params.id || '';
+        const userId = id;
             const newAutoIncrementValue = userId - 1;
             const alterTableQuery = `ALTER TABLE Users AUTO_INCREMENT = ${newAutoIncrementValue}`;
-        db.query('DELETE FROM Users WHERE GMAIL LIKE ?', [gmail], (err, results) => {
+        db.query('DELETE FROM Users WHERE id LIKE ?', [id], (err, results) => {
             if (err) {
             console.error('Không thể xóa người dùng:', err);
             res.status(500).send('Không thể xóa người dùng');
@@ -109,7 +99,6 @@ module.exports = {
                 return;
             }
                 res.status(200).json(results);
-            });
             });
             });
     },

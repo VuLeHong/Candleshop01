@@ -47,21 +47,11 @@ module.exports = {
         });
     },
     deleteOne: function (req, res) {
-        const {Name: Name} = req.body;
-        db.query('SELECT id FROM Category WHERE Name LIKE ?', [Name], (err, results) => {
-            if (err) {
-                console.error('Không thể lấy dữ liệu từ MySQL:', err);
-                res.status(500).send('Không thể lấy dữ liệu từ MySQL');
-                return;
-            }
-            if (results.length === 0) {
-                res.status(404).send('User not found');
-                return;
-            }
-            const categoryId = results[0].id;
+        let id = req.params.id || '';
+            const categoryId = id;
             const newAutoIncrementValue = categoryId - 1;
             const alterTableQuery = `ALTER TABLE Category AUTO_INCREMENT = ${newAutoIncrementValue}`;
-            db.query('DELETE FROM Category WHERE Name LIKE ?', [Name], (err, results) => {
+            db.query('DELETE FROM Category WHERE id LIKE ?', id, (err, results) => {
             if (err) {
                 console.error('Không thể xóa người dùng:', err);
                 res.status(500).send('Không thể xóa người dùng');
@@ -77,6 +67,6 @@ module.exports = {
                     res.status(200).json(results);
             });
                 });
-        });
+
     },
 };

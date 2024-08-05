@@ -11,5 +11,5 @@ module.exports = function (app) {
     app.get('/api/v1/category/:id', categoryService.getOne);
     app.post('/api/v1/category', categoryService.createOne);
     app.put('/api/v1/category', categoryService.updateOne);
-    app.delete('/api/v1/category', categoryService.deleteOne)
+    app.delete('/api/v1/category/:id', categoryService.deleteOne)
 };

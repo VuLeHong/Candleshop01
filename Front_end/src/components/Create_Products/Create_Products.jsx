@@ -58,8 +58,8 @@ const Create_Products = () => {
         }
 
         try {
-          axios.post("http://localhost:5000/api/v1/product_image",{
-            photo, name
+          axios.put("http://localhost:5000/api/v1/product_image",{
+            photo, Name:name
           }, {
             headers: {
                 'Content-Type': 'multipart/form-data',

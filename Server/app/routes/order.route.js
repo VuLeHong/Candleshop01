@@ -11,6 +11,6 @@ module.exports = function (app) {
     app.post('/api/v1/order', orderService.createOne);
     app.post('/api/v1/order_payment/:id', orderService.createPayment);
     app.put('/api/v1/order/:id', orderService.updateItem);
-    app.delete('/api/v1/order', orderService.deleteOne);
+    app.delete('/api/v1/order/:id', orderService.deleteOne);
     
 };
