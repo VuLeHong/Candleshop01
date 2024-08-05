@@ -9,6 +9,6 @@ module.exports = function (app) {
     app.post('/api/v1/product', productService.createOne);
     app.put('/api/v1/product_image', upload.single('photo'), productService.updateImage);
     app.put('/api/v1/product_discount', productService.updateDiscount);
-    app.delete('/api/v1/product', productService.deleteOne);
+    app.delete('/api/v1/product/:id', productService.deleteOne);
     
 };

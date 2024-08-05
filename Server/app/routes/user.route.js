@@ -9,6 +9,6 @@ module.exports = function (app) {
     app.post('/api/v1/user_signup', userService.signUp);
     app.put('/api/v1/user', userService.updatePassword);
     app.put('/api/v1/user/:id', userService.updateAdmin);
-    app.delete('/api/v1/user', userService.deleteOne);
+    app.delete('/api/v1/user/:id', userService.deleteOne);
     
 };

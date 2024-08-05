@@ -3,20 +3,21 @@ import './Products.css'
 import Sidebar from '../Sidebar/Sidebar'
 import { RiEditBoxFill } from "react-icons/ri";
 import { MdDelete } from "react-icons/md";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'
 
 const Products = () => {
 
   const [products,setProducts] = useState([])
   const [images, setImages] = useState({});
+  const history = useNavigate()
 
   const getProducts = async () => {
     try {
       const response = await axios.get('http://localhost:5000/api/v1/product');
       setProducts(response.data);
       products.forEach(product => {
-         getImageById(product.id)
+        getImageById(product.id)
       });
     } catch (error) {
       console.error(error.message);
@@ -37,6 +38,31 @@ const Products = () => {
   useEffect(() => {
     getProducts();
   }, );
+
+  const deleteproduct = async(id) => {
+    try {
+      console.log(id)
+      const response= await axios.delete(`http://localhost:5000/api/v1/product/${id}`,{})
+
+      .then (res=>{
+        if (res.status === 200) {
+          history('/products')
+        }
+        else if (res.status === 500) {
+          alert("Server dang bi loi")
+        }
+      })
+
+      .catch(e=>{
+        alert("Wrong details")
+        console.log(e);
+      })
+      
+    } catch (e) {
+      alert("Wrong details")
+      console.log(e)
+    }
+  }
 
   return (
     <div className='products-container'>
@@ -66,7 +92,7 @@ const Products = () => {
               <p>{product.Quantity}</p>
               <div className="no-padding"><p>Details</p></div>
               <RiEditBoxFill className='products-icon' />
-              <MdDelete className='products-icon' />
+              <MdDelete className='products-icon' onClick={() => deleteproduct(product.id)}  />
             </div>
           ))
           }

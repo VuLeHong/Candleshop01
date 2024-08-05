@@ -29,14 +29,14 @@ module.exports = {
         try {
             for(let item of Cart_items){
                 const Product_id = item.id;
-                const Quantity = item.quantity
+                const Quantity = item.Quantity
                 db.query('INSERT INTO Order_item (Order_id, Product_id, Quantity) VALUES (?, ?, ?)', [Order_id, Product_id, Quantity], (results) => {
                     
                     res.status(200).json(results);
                 });
             } 
         } catch (error) {
-            console.error('Không thể lấy dữ liệu từ MySQL:', err);
+            console.error('Không thể lấy dữ liệu từ MySQL:', error);
             res.status(500).send('Không thể lấy dữ liệu từ MySQL');
         }
         
@@ -55,7 +55,7 @@ module.exports = {
                 })
             })
         } catch (error) {
-            console.error('Không thể lấy dữ liệu từ MySQL:', err);
+            console.error('Không thể lấy dữ liệu từ MySQL:', error);
             res.status(500).send('Không thể lấy dữ liệu từ MySQL');
         }
         
@@ -81,7 +81,7 @@ module.exports = {
     },
     
     deleteOne: function (req, res) {
-        const {id: id} = req.body;
+        let id = req.params.id || '';
         const newAutoIncrementValue = id - 1;
         const alterTableQuery = `ALTER TABLE Orders AUTO_INCREMENT = ${newAutoIncrementValue}`;
         db.query('DELETE FROM Orders WHERE id LIKE ?', [id], (err, results) => {

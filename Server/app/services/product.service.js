@@ -93,27 +93,16 @@ module.exports = {
         });
     },
     deleteOne: function (req, res) {
-        const {Name: Name} = req.body;
-        db.query('SELECT id FROM Product WHERE Name LIKE ?', [Name], (err, results) => {
-        if (err) {
-            console.error('Không thể lấy dữ liệu từ MySQL:', err);
-            res.status(500).send('Không thể lấy dữ liệu từ MySQL');
-            return;
-        }
-        if (results.length === 0) {
-            res.status(404).send('User not found');
-            return;
-        }
-        const productId = results[0].id;
+        let id = req.params.id || '';
+        const productId = id;
         const newAutoIncrementValue = productId - 1;
         const alterTableQuery = `ALTER TABLE Product AUTO_INCREMENT = ${newAutoIncrementValue}`;
-            db.query('DELETE FROM Product WHERE Name LIKE ?', [Name], (err, results) => {
+            db.query('DELETE FROM Product WHERE id LIKE ?', [id], (err, results) => {
             if (err) {
                 console.error('Không thể xóa người dùng:', err);
                 res.status(500).send('Không thể xóa người dùng');
                 return;
             }
-            
             db.query(alterTableQuery, (err) => {
                 if (err) {
                     console.error('Không thể cập nhật AUTO_INCREMENT:', err);
@@ -123,6 +112,5 @@ module.exports = {
                     res.status(200).json(results);
             });
             });
-        });
     },
 };

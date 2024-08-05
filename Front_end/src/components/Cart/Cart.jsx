@@ -94,7 +94,7 @@ const Cart = () => {
                             <input 
                                 type="number" 
                                 min="0"
-                                max={cartItem.Quantity} 
+                                // max={cartItem.Quantity}
                                 value={quantities[id] || 1} 
                                 onChange={(e) => handleQuantityChange(id, e.target.value)}
                             />
