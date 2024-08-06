@@ -12,8 +12,8 @@ const Check_out = () => {
   const value = current.state || undefined;
   const cartItems = JSON.parse(sessionStorage.getItem("cartItems")) || {};
   const [images, setImages] = useState({});
-  const total = value.t;
-  const quantities = value.q;
+  const Amount = value.t;
+  const Carts = value.cart;
 
   const [User_name,setUser_name] = useState('')
   const [Gmail,setGmail] = useState('')
@@ -21,7 +21,15 @@ const Check_out = () => {
   const [Address,setAddress] = useState('') 
 
   const history = useNavigate()
-
+  var Cart_items = []
+    
+  Object.values(Carts).forEach(Item => {
+      let selectedObject = {
+        id: Item.id,
+        Quantity: Item.Quantity
+      };
+      Cart_items.push(selectedObject);
+    });
   const getImageById = async (id) => {
     try {
         const response = await axios.post('http://localhost:5000/api/v1/product_image/:id', { id }, { responseType: 'arraybuffer' });
@@ -40,78 +48,35 @@ const Check_out = () => {
     e.preventDefault();
     try {
       axios.post("http://localhost:5000/api/v1/order",{
-        User_name, Gmail, Phone_Number, Address
+        User_name, Gmail, Phone_Number, Address,Amount
       })
-
       .then (res=>{
-        if (res.status === 200) {
-          console.log(res);
-          try {
-            axios.post(`http://localhost:5000/api/v1/order_payment/${res}`,{
-              total
+            console.log(res.data)
+            const order_id = res.data;
+            console.log(Cart_items)
+            console.log(order_id)
+            axios.put(`http://localhost:5000/api/v1/order/${order_id}`,{
+              Cart_items
             })
-
             .then(res=>{
-              if (res.status === 200) {
-
-              }
-              else if (res.status === 500) {
-                alert("Server dang bi loi")
-              }
+              console.log(res)
             })
-
             .catch(e=>{
               alert("Wrong details")
               console.log(e);
             })
-
-          } catch (e) {
-              console.log(e);
-          }
-
-          try {
-            axios.put(`http://localhost:5000/api/v1/order/${res}`,{
-              cartItems
-            })
-
-            .then(res=>{
-              if (res.status === 200) {
-
-              }
-              else if (res.status === 500) {
-                alert("Server dang bi loi")
-              }
-            })
-
-            .catch(e=>{
-              alert("Wrong details")
-              console.log(e);
-            })
-
-          } catch (e) {
-              console.log(e);
-          }
-
           history('/')
-        }
-        else if (res.status === 500) {
-          alert("Server dang bi loi")
-        }
       })
-
       .catch(e=>{
         alert("Wrong details")
         console.log(e);
       })
     }
-
     catch(e) {
       console.log(e);
     }
-
   }
 
-  console.log(cartItems)
 
   return (
     <div>
@@ -142,16 +107,17 @@ const Check_out = () => {
           <div className='order-summary'>
             <h2>Order Summary</h2>
             {
-              Object.entries(cartItems).map(([id, cartItem]) => (
+              Object.entries(cartItems).map((cartItem) => (
                 <div className='order-item'>
-                  <span>{cartItem.Name}</span>
-                  <span>Quantity: {quantities[id]}</span>
-                  <span>{cartItem.Price * (quantities[id])}</span>
+                  <span>{cartItem[1].Name}</span>
+                  <span>Quantity: {cartItem[1].Quantity}</span>
+                  <span>{cartItem[1].Price * (cartItem[1].Quantity)}</span>
                 </div>
-            ))}
+            ) 
+            )}
             <div className='order-total'>
               <span>Total</span>
-              <span>{total}</span>
+              <span>{Amount}</span>
             </div>
             <button type='submit' onClick={nofify}>Place Order</button>
           </div>

@@ -8,7 +8,10 @@ import axios from 'axios';
 const Cart = () => {
     const [images, setImages] = useState({});
     const [quantities, setQuantities] = useState({});
-    const [cartItems, setCartItems] = useState(JSON.parse(sessionStorage.getItem("cartItems")) || {});
+    const [cartItems, setCartItems] = useState(() => {
+        const savedItems = sessionStorage.getItem('cartItems');
+        return savedItems ? JSON.parse(savedItems) : {};
+      })
     const [eachTotals, setEachTotals] = useState({});
 
     const getProducts = async () => {
@@ -31,17 +34,25 @@ const Cart = () => {
             console.error(`Error fetching image for product ${id}:`, error.message);
         }
     };
-
+    
     useEffect(() => {
         getProducts();
     }, []);
 
-    const handleQuantityChange = (id, newQuantity) => {
-        setQuantities(prevQuantities => ({
-            ...prevQuantities,
-            [id]: newQuantity
-        }));
-    };
+    const HandleCartChange = (id, newquantity) => {
+        setCartItems((prev) => {
+          const updatedItems = { ...prev };
+            updatedItems[id].Quantity = newquantity;
+          return updatedItems;
+        });
+      };
+
+    // const handleQuantityChange = (id, newQuantity) => {
+    //     setQuantities(prevQuantities => ({
+    //         ...prevQuantities,
+    //         [id]: {id, Quantity: newQuantity}
+    //     }));
+    // };
 
     const handleRemoveProduct = (id) => {
         const updatedCartItems = { ...cartItems };
@@ -52,13 +63,12 @@ const Cart = () => {
 
     const calculateSubtotal = () => {
         return Object.entries(cartItems).reduce((subtotal, [id, cartItem]) => {
-            const quantity = quantities[id] || 1;
+            const quantity = cartItem.Quantity || 1;
             return subtotal + (cartItem.Price * quantity);
         }, 0);
     };
 
     const subtotal = calculateSubtotal();
-    console.log(cartItems)
 
     return (
         <div>
@@ -79,7 +89,7 @@ const Cart = () => {
                         <p>QUANTITY</p>
                         <p>TOTAL</p>
                     </div>
-                    {Object.entries(cartItems).map(([id, cartItem]) => (
+                    {Object.entries(cartItems).map(([id,cartItem]) => (
                         <div className="cart-list" key={id}>
                             <div className="cart-list-product">
                                 <div className='cart-list-product-img'>
@@ -87,24 +97,24 @@ const Cart = () => {
                                 </div>
                                 <div className='cart-list-product-text'>
                                     <p>{cartItem.Name}</p>
-                                    <u onClick={() => handleRemoveProduct(id)}>Remove</u>
+                                    <u onClick={() => handleRemoveProduct(cartItem.id)}>Remove</u>
                                 </div>
                             </div>
-                            <p>{cartItem.Price} VND</p>
+                            <p>{cartItem.Price} $</p>
                             <input 
                                 type="number" 
                                 min="0"
-                                // max={cartItem.Quantity}
-                                value={quantities[id] || 1} 
-                                onChange={(e) => handleQuantityChange(id, e.target.value)}
+                                max={cartItem.maxQuantity}
+                                value={cartItem.Quantity|| 1} 
+                                onChange={(e) => HandleCartChange(id, e.target.value)}
                             />
-                            <p>{(cartItem.Price * (quantities[id] || 1))} VND</p>
+                            <p>{(cartItem.Price * (cartItem.Quantity|| 1))} $</p>
                         </div>
                     ))}
                     <div className="cart-bottom">
                         <p>Subtotal: {subtotal} VND</p>
                         <p>Taxes and shipping calculated at checkout</p>
-                        <Link to='/check-out' state={{t: subtotal, q: quantities}} className='text-decoration-none'>
+                        <Link to='/check-out' state={{t: subtotal, cart: cartItems}} className='text-decoration-none'>
                             <button>CHECK OUT</button>
                         </Link>
                     </div>
