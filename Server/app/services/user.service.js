@@ -1,5 +1,6 @@
 const db = require('../config/db');
-
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 module.exports = {
     getAll: function (req, res) {
         db.query('SELECT * FROM Users', (err, results) => {
@@ -23,7 +24,7 @@ module.exports = {
             res.json(results);
           });
     },
-    logIn: function (req, res) {
+    logIn: function(req, res) {
         const {gmail, password} = req.body;
         db.query('SELECT GMAIL, PASSWORD, IsAdmin FROM Users WHERE GMAIL LIKE ?', gmail, (err, results) => {
         if (err) {
@@ -32,9 +33,8 @@ module.exports = {
             //return;
         }
         else{
-        
             if(results.length>0) { 
-                if(results[0].PASSWORD==password) res.status(200).json(results[0].IsAdmin)
+                if(bcrypt.compare(password, results[0].PASSWORD)) res.status(200).json(results[0].IsAdmin)
                 else res.status(202).json(results)
             }
             else {
@@ -44,11 +44,12 @@ module.exports = {
         
         });
     },
-    signUp: function (req, res) {
+    signUp: async function(req, res) {
         const {gmail: gmail, password: password} = req.body;
         const today = new Date();
         const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-        db.query('INSERT INTO Users (gmail, password, created_at) VALUES (?, ?, ?)', [gmail, password, date], (err, results) => {
+        const newpassword = await bcrypt.hash(password,saltRounds)
+        db.query('INSERT INTO Users (gmail, password, created_at) VALUES (?, ?, ?)', [gmail, newpassword, date], (err, results) => {
         if (err) {
             console.error('Không thể lấy dữ liệu từ MySQL:', err);
             res.status(500).send('Không thể lấy dữ liệu từ MySQL');
