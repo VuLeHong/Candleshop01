@@ -13,7 +13,7 @@ const Shop = () => {
 
     const getProducts = async () => {
         try {
-          const response = await axios.get('http://localhost:5000/api/v1/product');
+          const response = await axios.get('https://nenshop.onrender.com/api/v1/product');
           setProducts(response.data);
           response.data.forEach(product => {
              getImageById(product.id)
@@ -26,7 +26,7 @@ const Shop = () => {
     
       const getImageById = async (id) => {
         try {
-          const response = await axios.get(`http://localhost:5000/api/v1/product_image/${id}`, { responseType: 'arraybuffer' });
+          const response = await axios.get(`https://nenshop.onrender.com/api/v1/product_image/${id}`, { responseType: 'arraybuffer' });
           const imageUrl = URL.createObjectURL(new Blob([response.data], { type: 'image/jpeg' }));
           setImages(prevImages => ({ ...prevImages, [id]: imageUrl }));
         } catch (error) {
