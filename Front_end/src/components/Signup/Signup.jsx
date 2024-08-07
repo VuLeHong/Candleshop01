@@ -14,7 +14,7 @@ const Signup = () => {
   function submit(e) {
     e.preventDefault(); 
     try {
-      axios.post("http://localhost:5000/api/v1/user_signup",{
+      axios.post("https://nenshop.onrender.com/api/v1/user_signup",{
         gmail, password
       })
 

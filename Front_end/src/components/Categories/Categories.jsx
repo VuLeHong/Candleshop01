@@ -12,7 +12,7 @@ const Categories = () => {
 
   const getCategories = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/v1/category');
+      const response = await axios.get('https://nenshop.onrender.com/api/v1/category');
       setCategories(response.data);
     } catch (error) {
       console.error(error.message);
