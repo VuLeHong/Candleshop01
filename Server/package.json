@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "genDoc":"apidoc -i ./app/services -o ./public"
   },
   "author": "",
   "license": "ISC",
@@ -18,5 +19,13 @@
     "mysql": "^2.18.1",
     "mysql2": "^3.10.1",
     "path": "^0.12.7"
+  }, "apidoc":{
+    
+      "name": "product",
+      "version": "1.0.0",
+      "description": "apiDoc basic product",
+      "title": "apidoc for product",
+      "url" : "https://nenshop.onrender.com"
+    
   }
 }

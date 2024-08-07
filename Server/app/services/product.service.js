@@ -2,6 +2,15 @@ const db =require('../config/db');
 const multer = require('multer');
 
 module.exports = {
+  /**
+ * @api {get} /product Request AllProducts information
+ * @apiName GetAllProducts
+ * @apiGroup Product
+ *
+ * @apiSuccess {Array} all products.
+ *
+ * @apiError Không thể lấy dữ liệu từ MySQL.
+ */
     getAll: function (req, res) {
         db.query('SELECT * FROM Product', (err, results) => {
             if (err) {
@@ -12,6 +21,18 @@ module.exports = {
             res.json(results);
           });
     },
+
+    /**
+ * @api {get} /product/:id Request Product information
+ * @apiName GetProduct
+ * @apiGroup Product
+ *
+ * @apiParam {Number} id Products unique ID.
+ *
+ * @apiSuccess {Object} all information of this product.
+ *
+ * @apiError Không thể lấy dữ liệu từ MySQL.
+ */
 
     getOne: function (req, res) {
         let id = req.params.id || '';
@@ -24,6 +45,19 @@ module.exports = {
             res.json(results);
           });
     },
+
+/**
+ * @api {get} /product_image/:id Request Product image
+ * @apiName GetProductImage
+ * @apiGroup Product
+ *
+ * @apiParam {Number} id Product unique ID.
+ *
+ * @apiSuccess {Blob} image of the Product.
+ *
+ * @apiError Không thể lấy dữ liệu từ MySQL.
+ */
+
     getImage: function (req, res) {
         let id = req.params.id || '';
         db.query('SELECT Image FROM Product WHERE id LIKE ?', [id],(err, results) => {
@@ -42,6 +76,20 @@ module.exports = {
           
         });
     },
+
+/**
+ * @api {get} /users/:id Request User information
+ * @apiName GetUser
+ * @apiGroup User
+ *
+ * @apiParam {Number} id Users unique ID.
+ *
+ * @apiSuccess {String} firstname Firstname of the User.
+ * @apiSuccess {String} lastname  Lastname of the User.
+ *
+ * @apiError UserNotFound The id of the User was not found.
+ */
+
     getId: function (req, res) {
         const {Name: Name} = req.body;
         db.query('SELECT id FROM Product WHERE Name LIKE ?', Name,(err, results) => {
@@ -53,6 +101,17 @@ module.exports = {
             res.json(results);
         });
     },
+
+/**
+ * @api {post} /product Create new product
+ * @apiName PostProduct
+ * @apiGroup Product
+ *
+ * @apiSuccess {Object} created product.
+ *
+ * @apiError Không thể lấy dữ liệu từ MySQL.
+ */
+
     createOne: function (req, res) {
         const {name: name, quantity: quantity, desc: desc, price: price, category_id: category_id, detail: detail} = req.body;
         const today = new Date();
@@ -66,7 +125,17 @@ module.exports = {
             res.status(200).json(results);
         });
     },
-    
+
+    /**
+ * @api {put} /product_image Update image of Product
+ * @apiName PutImageProduct
+ * @apiGroup Product
+ *
+ * @apiSuccess {Blob} new image of product.
+ *
+ * @apiError Error updating image in MySQL.
+ */
+
     updateImage: function (req, res) {
         if (!req.file || !req.file.buffer) {
             return res.status(400).send('No file uploaded or file data is missing');
@@ -81,6 +150,17 @@ module.exports = {
             res.status(200).json(results);
           });
     },
+
+/**
+ * @api {put} /product_discount Create a discount of product
+ * @apiName PutDiscountProduct
+ * @apiGroup Product
+ *
+ * @apiSuccess {Number} value of discount.
+ *
+ * @apiError Không thể lấy dữ liệu từ MySQL.
+ */
+
     updateDiscount: function (req, res) {
         const {Name: Name, Discount: Discount} = req.body;
         db.query('UPDATE Product SET Discount = ? WHERE Name LIKE ?',[Name, Discount], (err, results) => {
@@ -92,6 +172,19 @@ module.exports = {
             res.status(200).json(results);
         });
     },
+
+/**
+ * @api {delete} /product/:id Delete product
+ * @apiName DeleteProduct
+ * @apiGroup Product
+ *
+ * @apiParam {Number} id Products unique ID.
+ *
+ * @apiSuccess {String} delete successful.
+ *
+ * @apiError Không thể xóa người dùng.
+ */
+
     deleteOne: function (req, res) {
         let id = req.params.id || '';
         const productId = id;
