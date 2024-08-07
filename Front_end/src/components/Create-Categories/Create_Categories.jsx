@@ -3,6 +3,7 @@ import './Create_Categories.css'
 import Sidebar from '../Sidebar/Sidebar'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
+import baseUrl from "../../../axiosConfig"
 
 const Create_Categories = () => {
 
@@ -13,7 +14,7 @@ const Create_Categories = () => {
   function submit(e) {
     e.preventDefault(); 
     try {
-      axios.post("https://nenshop.onrender.com/api/v1/category",{
+      baseUrl.post("/api/v1/category",{
         name, desc
       })
 

@@ -5,6 +5,7 @@ import { RiEditBoxFill } from "react-icons/ri";
 import { MdDelete } from "react-icons/md";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import baseUrl from "../../../axiosConfig"
 
 const Categories = () => {
 
@@ -12,7 +13,7 @@ const Categories = () => {
 
   const getCategories = async () => {
     try {
-      const response = await axios.get('https://nenshop.onrender.com/api/v1/category');
+      const response = await baseUrl.get('/api/v1/category');
       setCategories(response.data);
     } catch (error) {
       console.error(error.message);

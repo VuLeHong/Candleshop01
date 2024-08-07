@@ -5,6 +5,7 @@ import Footer from '../Footer/Footer';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import baseUrl from "../../../axiosConfig"
 
 const Check_out = () => {
 
@@ -32,7 +33,7 @@ const Check_out = () => {
     });
   const getImageById = async (id) => {
     try {
-        const response = await axios.post('https://nenshop.onrender.com/api/v1/product_image/:id', { id }, { responseType: 'arraybuffer' });
+        const response = await baseUrl.post('/api/v1/product_image/:id', { id }, { responseType: 'arraybuffer' });
         const imageUrl = URL.createObjectURL(new Blob([response.data], { type: 'image/jpeg' }));
         setImages(prevImages => ({ ...prevImages, [id]: imageUrl }));
     } catch (error) {
@@ -47,7 +48,7 @@ const Check_out = () => {
   function submit(e) {
     e.preventDefault();
     try {
-      axios.post("https://nenshop.onrender.com/api/v1/order",{
+      baseUrl.post("/api/v1/order",{
         User_name, Gmail, Phone_Number, Address,Amount
       })
       .then (res=>{
@@ -55,7 +56,7 @@ const Check_out = () => {
             const order_id = res.data;
             console.log(Cart_items)
             console.log(order_id)
-            axios.put(`https://nenshop.onrender.com/api/v1/order/${order_id}`,{
+            baseUrl.put(`/api/v1/order/${order_id}`,{
               Cart_items
             })
             .then(res=>{
