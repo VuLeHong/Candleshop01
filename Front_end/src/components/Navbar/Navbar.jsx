@@ -21,10 +21,10 @@ const Navbar = () => {
     <div className="navbar">
       <a className="navbar-logo" href="/">VBCandle</a>
       <div className="navbar-menu">
-        <a href="/" className="navbar-link">Home</a>
-        <a href="/shop" className="navbar-link">Shop</a>
-        <a href="/about" className="navbar-link">About</a>
-        <a href="/faq" className="navbar-link">FAQ</a>
+        <Link to = '/' className="text-decoration-none navbar-link">Home</Link>
+        <Link to = '/shop' className="text-decoration-none navbar-link">Shop</Link>
+        <Link to = '/about' className="text-decoration-none navbar-link">About</Link>
+        <Link to = '/faq' className="text-decoration-none navbar-link">FAQ</Link>
       </div>
       {
         auth === null
