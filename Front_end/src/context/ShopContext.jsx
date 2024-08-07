@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { createContext } from "react";
 import axios from 'axios';
+import baseUrl from "../../axiosConfig"
 
 export const ShopContext = createContext();
 
@@ -8,19 +9,7 @@ const ShopContextProvider = (props) => {
 
     const [products,setProducts] = useState([])
 
-    const getProducts = async () => {
-        try {
-          const response = await axios.get('https://nenshop.onrender.com/api/v1/product');
-          setProducts(response.data);
-        } catch (error) {
-          console.error(error.message);
-        }
-      };
 
-    useEffect(() => {
-        getProducts();
-    }, []);
-    
     const getDefaultCart = ()=>{
         let cart = {};
         for (let index = 0; index < products.length+1; index++) {

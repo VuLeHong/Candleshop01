@@ -5,6 +5,7 @@ import { RiEditBoxFill } from "react-icons/ri";
 import { MdDelete } from "react-icons/md";
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios'
+import baseUrl from "../../../axiosConfig"
 
 const Products = () => {
 
@@ -14,7 +15,7 @@ const Products = () => {
 
   const getProducts = async () => {
     try {
-      const response = await axios.get('https://nenshop.onrender.com/api/v1/product');
+      const response = await baseUrl.get('/api/v1/product');
       setProducts(response.data);
       products.forEach(product => {
         getImageById(product.id)
@@ -26,7 +27,7 @@ const Products = () => {
 
   const getImageById = async (id) => {
     try {
-      const response = await axios.get(`https://nenshop.onrender.com/api/v1/product_image/${id}`, { responseType: 'arraybuffer' });
+      const response = await baseUrl.get(`/api/v1/product_image/${id}`, { responseType: 'arraybuffer' });
       const imageUrl = URL.createObjectURL(new Blob([response.data], { type: 'image/jpeg' }));
     
       setImages(prevImages => ({ ...prevImages, [id]: imageUrl }));
@@ -42,7 +43,7 @@ const Products = () => {
   const deleteproduct = async(id) => {
     try {
       console.log(id)
-      const response= await axios.delete(`https://nenshop.onrender.com/api/v1/product/${id}`,{})
+      const response= await baseUrl.delete(`/api/v1/product/${id}`,{})
 
       .then (res=>{
         if (res.status === 200) {

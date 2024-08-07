@@ -4,6 +4,7 @@ import './Signup.css'
 import Navbar from '../Navbar/Navbar'
 import Footer from '../Footer/Footer'
 import axios from 'axios'
+import baseUrl from "../../../axiosConfig"
 
 const Signup = () => {
 
@@ -14,7 +15,7 @@ const Signup = () => {
   function submit(e) {
     e.preventDefault(); 
     try {
-      axios.post("https://nenshop.onrender.com/api/v1/user_signup",{
+      baseUrl.post("/api/v1/user_signup",{
         gmail, password
       })
 

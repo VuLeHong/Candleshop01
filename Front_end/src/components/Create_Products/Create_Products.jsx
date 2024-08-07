@@ -3,6 +3,7 @@ import './Create_Products.css'
 import Sidebar from '../Sidebar/Sidebar'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
+import baseUrl from "../../../axiosConfig"
 
 const Create_Products = () => {
 
@@ -20,7 +21,7 @@ const Create_Products = () => {
 
     const getCategories = async () => {
         try {
-            const response = await axios.get('https://nenshop.onrender.com/api/v1/category');
+            const response = await baseUrl.get('/api/v1/category');
             setCategories(response.data);
         } catch (error) {
             console.error(error.message);
@@ -34,7 +35,7 @@ const Create_Products = () => {
     function submit(e) {
         e.preventDefault(); 
         try {
-          axios.post("https://nenshop.onrender.com/api/v1/product",{
+          baseUrl.post("/api/v1/product",{
             name, quantity, desc, price, category_id, detail
           })
     
@@ -58,7 +59,7 @@ const Create_Products = () => {
         }
 
         try {
-          axios.put("https://nenshop.onrender.com/api/v1/product_image",{
+          baseUrl.put("/api/v1/product_image",{
             photo, Name:name
           }, {
             headers: {

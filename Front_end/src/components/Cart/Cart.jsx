@@ -4,6 +4,7 @@ import Navbar from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import baseUrl from "../../../axiosConfig"
 
 const Cart = () => {
     const [images, setImages] = useState({});
@@ -16,7 +17,7 @@ const Cart = () => {
 
     const getProducts = async () => {
         try {
-            const response = await axios.get('https://nenshop.onrender.com/api/v1/product');
+            const response = await baseUrl.get('/api/v1/product');
             response.data.forEach(product => {
                 getImageById(product.id)});
         } catch (error) {
@@ -26,7 +27,7 @@ const Cart = () => {
 
     const getImageById = async (id) => {
         try {
-            const response = await axios.get(`https://nenshop.onrender.com/api/v1/product_image/${id}`, { responseType: 'arraybuffer' });
+            const response = await baseUrl.get(`/api/v1/product_image/${id}`, { responseType: 'arraybuffer' });
             const imageUrl = URL.createObjectURL(new Blob([response.data], { type: 'image/jpeg' }));
             // console.log(response.data)
             setImages(prevImages => ({ ...prevImages, [id]: imageUrl }));
