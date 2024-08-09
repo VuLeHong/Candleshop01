@@ -17,7 +17,7 @@ const Trend = () => {
             </div>
         </div>
         <div className="trend-bottom">
-            <h1>Treat Yourself with Micandle</h1>
+            <h1>Treat Yourself with VBcandle</h1>
             <p>Scent has the power to transcend you to a place, a memory, or a feeling. With scent, you can travel without leaving your home. By lighting a candle, you are igniting a moment of self-care, luxury, and immersion.</p>
         </div>
     </div>
