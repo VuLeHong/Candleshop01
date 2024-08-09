@@ -1,4 +1,4 @@
-const db =require('../config/db');
+const pool =require('../config/db');
 const multer = require('multer');
 const mysql = require('mysql2');
 module.exports = {
