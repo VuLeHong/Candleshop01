@@ -1,6 +1,8 @@
 const db =require('../config/db');
+const mysql = require('mysql2');
 module.exports = {
-    getAll: function (req, res) {
+    getAll: async function (req, res) {
+        const db = await pool.getConnection();
         db.query('SELECT * FROM Category', (err, results) => {
             if (err) {
               console.error('Không thể lấy dữ liệu từ MySQL:', err);
@@ -9,9 +11,11 @@ module.exports = {
             }
             res.json(results);
           });
+          db.release();  
     },
 
-    getOne: function (req, res) {
+    getOne: async function (req, res) {
+        const db = await pool.getConnection();
         let id = req.params.id || '';
         db.query('SELECT * FROM Category WHERE id = ?', [id], (err, results) => {
             if (err) {
@@ -21,8 +25,10 @@ module.exports = {
             }
             res.json(results);
           });
+          db.release();  
     },
-    createOne: function (req, res) {
+    createOne: async function (req, res) {
+        const db = await pool.getConnection();
         const {name: name, desc: desc} = req.body;
         const today = new Date();
         const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -34,8 +40,10 @@ module.exports = {
             }
             res.status(200).json(results);
         });
+        db.release(); 
     },
-    updateOne: function (req, res) {
+    updateOne: async function (req, res) {
+        const db = await pool.getConnection();
         const {Name: Name, Desc: Desc} = req.body;
         db.query('UPDATE Category SET `Desc` = ? WHERE Name LIKE ?',[Desc, Name], (err, results) => {
             if (err) {
@@ -45,8 +53,10 @@ module.exports = {
             }
             res.status(200).json(results);
         });
+        db.release(); 
     },
-    deleteOne: function (req, res) {
+    deleteOne: async function (req, res) {
+        const db = await pool.getConnection();
         let id = req.params.id || '';
             const categoryId = id;
             const newAutoIncrementValue = categoryId - 1;
@@ -67,6 +77,7 @@ module.exports = {
                     res.status(200).json(results);
             });
                 });
+                db.release(); 
 
     },
 };

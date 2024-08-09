@@ -1,6 +1,6 @@
 const db =require('../config/db');
 const multer = require('multer');
-
+const mysql = require('mysql2');
 module.exports = {
   /**
  * @api {get} /product Request AllProducts information
@@ -11,7 +11,8 @@ module.exports = {
  *
  * @apiError Không thể lấy dữ liệu từ MySQL.
  */
-    getAll: function (req, res) {
+    getAll: async function (req, res) {
+      const db = await pool.getConnection();
         db.query('SELECT * FROM Product', (err, results) => {
             if (err) {
               console.error('Không thể lấy dữ liệu từ MySQL:', err);
@@ -20,6 +21,7 @@ module.exports = {
             }
             res.json(results);
           });
+          db.release();  
     },
 
     /**
@@ -34,7 +36,8 @@ module.exports = {
  * @apiError Không thể lấy dữ liệu từ MySQL.
  */
 
-    getOne: function (req, res) {
+    getOne: async function (req, res) {
+      const db = await pool.getConnection();
         let id = req.params.id || '';
         db.query('SELECT * FROM Product WHERE id = ?', [id], (err, results) => {
             if (err) {
@@ -44,6 +47,7 @@ module.exports = {
             }
             res.json(results);
           });
+          db.release();  
     },
 
 /**
@@ -58,7 +62,8 @@ module.exports = {
  * @apiError Không thể lấy dữ liệu từ MySQL.
  */
 
-    getImage: function (req, res) {
+    getImage: async function (req, res) {
+      const db = await pool.getConnection();
         let id = req.params.id || '';
         db.query('SELECT Image FROM Product WHERE id LIKE ?', [id],(err, results) => {
           if (err) {
@@ -75,6 +80,7 @@ module.exports = {
           }
           
         });
+        db.release();  
     },
 
 /**
@@ -90,7 +96,8 @@ module.exports = {
  * @apiError UserNotFound The id of the User was not found.
  */
 
-    getId: function (req, res) {
+    getId: async function (req, res) {
+      const db = await pool.getConnection();
         const {Name: Name} = req.body;
         db.query('SELECT id FROM Product WHERE Name LIKE ?', Name,(err, results) => {
             if (err) {
@@ -100,6 +107,7 @@ module.exports = {
             }
             res.json(results);
         });
+        db.release();  
     },
 
 /**
@@ -112,7 +120,8 @@ module.exports = {
  * @apiError Không thể lấy dữ liệu từ MySQL.
  */
 
-    createOne: function (req, res) {
+    createOne: async function (req, res) {
+      const db = await pool.getConnection();
         const {name: name, quantity: quantity, desc: desc, price: price, category_id: category_id, detail: detail} = req.body;
         const today = new Date();
         const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -124,6 +133,7 @@ module.exports = {
             }
             res.status(200).json(results);
         });
+        db.release();  
     },
 
     /**
@@ -136,7 +146,8 @@ module.exports = {
  * @apiError Error updating image in MySQL.
  */
 
-    updateImage: function (req, res) {
+    updateImage: async function (req, res) {
+      const db = await pool.getConnection();
         if (!req.file || !req.file.buffer) {
             return res.status(400).send('No file uploaded or file data is missing');
         }
@@ -149,6 +160,7 @@ module.exports = {
             }
             res.status(200).json(results);
           });
+          db.release(); 
     },
 
 /**
@@ -161,7 +173,8 @@ module.exports = {
  * @apiError Không thể lấy dữ liệu từ MySQL.
  */
 
-    updateDiscount: function (req, res) {
+    updateDiscount: async function (req, res) {
+      const db = await pool.getConnection();
         const {Name: Name, Discount: Discount} = req.body;
         db.query('UPDATE Product SET Discount = ? WHERE Name LIKE ?',[Name, Discount], (err, results) => {
             if (err) {
@@ -171,6 +184,7 @@ module.exports = {
             }
             res.status(200).json(results);
         });
+        db.release();
     },
 
 /**
@@ -185,7 +199,8 @@ module.exports = {
  * @apiError Không thể xóa người dùng.
  */
 
-    deleteOne: function (req, res) {
+    deleteOne: async function (req, res) {
+      const db = await pool.getConnection();
         let id = req.params.id || '';
         const productId = id;
         const newAutoIncrementValue = productId - 1;
@@ -205,5 +220,6 @@ module.exports = {
                     res.status(200).json(results);
             });
             });
+            db.release();
     },
 };

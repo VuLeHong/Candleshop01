@@ -1,8 +1,11 @@
-const db = require('../config/db');
+const pool = require('../config/db');
+const mysql = require('mysql2');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+
 module.exports = {
-    getAll: function (req, res) {
+    getAll: async function (req, res) {
+        const db = await pool.getConnection();
         db.query('SELECT * FROM Users', (err, results) => {
             if (err) {
               console.error('Không thể lấy dữ liệu từ MySQL:', err);
@@ -10,10 +13,12 @@ module.exports = {
               return;
             }
             res.json(results);
-        });       
+        });     
+        db.release();  
     },
 
-    getOne: function (req, res) {
+    getOne: async function (req, res) {
+        const db = await pool.getConnection();
         let id = req.params.id || '';
         db.query('SELECT * FROM Users WHERE id = ?', [id], (err, results) => {
             if (err) {
@@ -23,8 +28,10 @@ module.exports = {
             }
             res.json(results);
           });
+          db.release();  
     },
-    logIn: function(req, res) {
+    logIn: async function(req, res) {
+        const db = await pool.getConnection();
         const {gmail, password} = req.body;
         db.query('SELECT GMAIL, PASSWORD, IsAdmin FROM Users WHERE GMAIL LIKE ?', gmail, (err, results) => {
         if (err) {
@@ -43,8 +50,10 @@ module.exports = {
         }
         
         });
+        db.release();  
     },
     signUp: async function(req, res) {
+        const db = await pool.getConnection();
         const {gmail: gmail, password: password} = req.body;
         const today = new Date();
         const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -57,8 +66,10 @@ module.exports = {
         }
         res.status(200).json(results);
         });
+        db.release();
     },
-    updateAdmin: function (req, res) {
+    updateAdmin: async function (req, res) {
+        const db = await pool.getConnection();
         let id = req.params.id || '';
         db.query('UPDATE Users SET IsAdmin = 1 WHERE User_id LIKE ?',id, (err, results) => {
         if (err) {
@@ -68,9 +79,11 @@ module.exports = {
         }
         res.status(200).json(results);
         });
+        db.release();
     },
     
-    updatePassword: function (req, res) {
+    updatePassword: async function (req, res) {
+        const db = await pool.getConnection();
         const {gmail: gmail, password: password} = req.body;
         db.query('UPDATE Users SET password = ? WHERE GMAIL LIKE ?',[password, gmail], (err, results) => {
         if (err) {
@@ -80,8 +93,10 @@ module.exports = {
         }
         res.status(200).json(results);
         });
+        db.release();
     },
-    deleteOne: function (req, res) {
+    deleteOne: async function (req, res) {
+        const db = await pool.getConnection();
         let id = req.params.id || '';
         const userId = id;
             const newAutoIncrementValue = userId - 1;
@@ -102,5 +117,6 @@ module.exports = {
                 res.status(200).json(results);
             });
             });
+            db.release();
     },
 };

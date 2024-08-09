@@ -1,7 +1,8 @@
 const db =require('../config/db');
-
+const mysql = require('mysql2');
 module.exports = {
-    getAll: function (req, res) {
+    getAll: async function (req, res) {
+        const db = await pool.getConnection();
         db.query('SELECT * FROM Orders', (err, results) => {
             if (err) {
               console.error('Không thể lấy dữ liệu từ MySQL:', err);
@@ -10,9 +11,11 @@ module.exports = {
             }
             res.json(results);
           });
+          db.release();  
     },
 
-    getOne: function (req, res) {
+    getOne: async function (req, res) {
+        const db = await pool.getConnection();
         let id = req.params.id || '';
         db.query('SELECT * FROM Orders WHERE id = ?', [id], (err, results) => {
             if (err) {
@@ -22,8 +25,10 @@ module.exports = {
             }
             res.json(results);
           });
+          db.release(); 
     },
-    updateItem: function (req, res) {
+    updateItem: async function (req, res) {
+        const db = await pool.getConnection();
         let Order_id = req.params.id || '';
         const { Cart_items: Cart_items} = req.body; 
     
@@ -47,10 +52,12 @@ module.exports = {
             console.error('Không thể lấy dữ liệu từ MySQL:', error);
             res.status(500).send('Không thể lấy dữ liệu từ MySQL');
         }
+        db.release();
     },
 
 
-    createOne: function (req, res) {
+    createOne: async function (req, res) {
+        const db = await pool.getConnection();
         const {User_name: User_name, Gmail: Gmail, Phone_Number: Phone_Number, Address: Address, Amount: Amount} = req.body;
         const today = new Date();
         const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -67,9 +74,11 @@ module.exports = {
             console.error('Không thể lấy dữ liệu từ MySQL:', error);
             res.status(500).send('Không thể lấy dữ liệu từ MySQL');
         }
+        db.release();
     },
     
-    deleteOne: function (req, res) {
+    deleteOne: async function (req, res) {
+        const db = await pool.getConnection();
         let id = req.params.id || '';
         const newAutoIncrementValue = id - 1;
         const alterTableQuery = `ALTER TABLE Orders AUTO_INCREMENT = ${newAutoIncrementValue}`;
@@ -89,5 +98,6 @@ module.exports = {
                 res.status(200).json(results);
         });
         });
+        db.release();
     },
 };
