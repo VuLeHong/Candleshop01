@@ -13,11 +13,11 @@ const db = mysql.createPool({
     password: PASS, // mật khẩu của bạn
     database: DATABASE // tên cơ sở dữ liệu bạn đã tạo
   }).promise();
-  db.connect((err) => {
-    if (err) {
-      console.error('Không thể kết nối đến MySQL:', err);
-      return;
-    }
-    console.log('Đã kết nối đến MySQL');
-});
+//   db.connect((err) => {
+//     if (err) {
+//       console.error('Không thể kết nối đến MySQL:', err);
+//       return;
+//     }
+//     console.log('Đã kết nối đến MySQL');
+// });
 module.exports = db;
