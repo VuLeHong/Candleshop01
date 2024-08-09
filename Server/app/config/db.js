@@ -12,7 +12,7 @@ const db = mysql.createPool({
     user: USER, // tài khoản MySQL của bạn
     password: PASS, // mật khẩu của bạn
     database: DATABASE // tên cơ sở dữ liệu bạn đã tạo
-  })
+  }).promise()
 //   db.connect((err) => {
 //     if (err) {
 //       console.error('Không thể kết nối đến MySQL:', err);
