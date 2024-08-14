@@ -1,7 +1,6 @@
 const pool = require('../config/db');
 const mysql = require('mysql2');
 const bcrypt = require('bcrypt');
-// const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 
 module.exports = {
