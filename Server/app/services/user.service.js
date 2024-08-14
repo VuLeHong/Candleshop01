@@ -114,7 +114,7 @@ module.exports = {
         try {
             db = await pool.getConnection();
             const id = req.params.id || '';
-            const [results] = await db.query('DELETE FROM Users WHERE id LIKE ?', [id]);
+            const [results] = await db.query('DELETE FROM Users WHERE User_id LIKE ?', [id]);
 
             const newAutoIncrementValue = id - 1;
             const alterTableQuery = `ALTER TABLE Users AUTO_INCREMENT = ${newAutoIncrementValue}`;
